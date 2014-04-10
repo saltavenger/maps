@@ -5,16 +5,24 @@
       <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
       <title>TRI Mapping</title>
       <link rel="stylesheet" href="css/main.css">
-      <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
+      <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css">
       <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-  	  <script src="http://js.arcgis.com/3.8/"></script>
+  	  <script src="http://js.arcgis.com/3.9/"></script>
       <script src="js/main.js"></script>
     </head>
-    <body>
+    <body class="claro">
     	<div id="mapDiv"></div>
+      <div id="mapNav">
+        <ol id="markerList"></ol>
+      </div>
       <div id="legend">
-        <p>EJ 1 Mile: <a href="javascript:void(0);" class="buffer1">Buffer</a> <a href="javascript:void(0);" class="minority1">Minority</a> <a href="javascript:void(0);" class="poverty1">Poverty</a> <a href="javascript:void(0);" class="hispanic1">Hispanic</a> <a href="javascript:void(0);" class="income1">Income</a> <a href="javascript:void(0);" class="race1">Race</a></p>
-        <p>EJ 3 Mile: <a href="javascript:void(0);" class="buffer3">Buffer</a> <a href="javascript:void(0);" class="minority3">Minority</a> <a href="javascript:void(0);" class="poverty3">Poverty</a> <a href="javascript:void(0);" class="hispanic3">Hispanic</a> <a href="javascript:void(0);" class="income3">Income</a> <a href="javascript:void(0);" class="race3">Race</a></p>
+        <div id="legendControls">
+          <p>EJ 1 Mile: <a href="javascript:void(0);" class="buffer1">Buffer</a> <a href="javascript:void(0);" class="minority1">Minority</a> <a href="javascript:void(0);" class="poverty1">Poverty</a> <a href="javascript:void(0);" class="hispanic1">Hispanic</a> <a href="javascript:void(0);" class="income1">Income</a> <a href="javascript:void(0);" class="race1">Race</a></p>
+          <p>EJ 3 Mile: <a href="javascript:void(0);" class="buffer3">Buffer</a> <a href="javascript:void(0);" class="minority3">Minority</a> <a href="javascript:void(0);" class="poverty3">Poverty</a> <a href="javascript:void(0);" class="hispanic3">Hispanic</a> <a href="javascript:void(0);" class="income3">Income</a> <a href="javascript:void(0);" class="race3">Race</a></p>
+          <button id="hideLayers">Clear All</button>
+        </div>
+        <div id="legendInfo">
+        </div>
       </div>
    	</body>
   </html>

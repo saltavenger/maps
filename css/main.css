@@ -1,3 +1,12 @@
+#mapDiv, #mapNav, #legendControls, #legendInfo{
+	float: left;
+}
 #mapDiv{
 	width: 800px;
+}
+#mapNav{
+	width: 400px;
+}
+#legend{
+	clear: both;
 }

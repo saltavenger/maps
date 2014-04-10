@@ -8,10 +8,14 @@ var markers = [
 
 var map;
 require([ "esri/map",
+          "esri/SpatialReference",
           "esri/geometry",
           "esri/geometry/Point",
           "esri/geometry/Multipoint",
+          "esri/geometry/Circle",
           "esri/geometry/Extent",
+          "esri/symbols/SimpleFillSymbol",
+          "esri/symbols/SimpleLineSymbol",
           "esri/symbols/SimpleMarkerSymbol",
           "esri/symbols/Font",
           "esri/symbols/TextSymbol",
@@ -19,9 +23,10 @@ require([ "esri/map",
           "esri/layers/GraphicsLayer",
           "esri/dijit/Popup",
           "esri/tasks/GeometryService",
-          "esri/tasks/BufferParameters",
+          "esri/Color",
+          "dojo/dom",
           "dojo/domReady!"
-        ], function(Map, Geometry, Point, Multipoint, Extent, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, GeometryService, BufferParameters) { 
+        ], function(Map, Geometry, SpatialReference, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, GeometryService, Color, dom) { 
   map = new Map("mapDiv", {
     basemap: "osm"
   });
@@ -45,45 +50,89 @@ require([ "esri/map",
       pointLayer.add(g);
       count++;
     }
-    /*
-    var xmin = latLonArray.getExtent().xmin;
-    var ymin = latLonArray.getExtent().ymin;
-    var xmax = latLonArray.getExtent().xmax;
-    var ymax = latLonArray.getExtent().ymax;
-    var xavg = (xmin + xmax)/2;
-    var yavg = (ymin + ymax)/2;
-    centerPoint = new Point(xavg, yavg);
-    map.centerAt(centerPoint);
-    */
+
     var setMap = latLonArray.getExtent();
     map.setExtent(setMap.expand(2));
     map.addLayer(pointLayer);
-
+    var gsvc = new esri.tasks.GeometryService('http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer/buffer');
+    
     //buffer
+
+    var bufferSymb = new SimpleFillSymbol();
+    var buffer1Layer = new GraphicsLayer();
+    var buffer3Layer = new GraphicsLayer();
+
     $('.buffer1').click(function(){
-      var buffer1 = new BufferParameters();
-      buffer1.distances = 1;
-      buffer1.geometries = latLonArray;
-      buffer1.unit = GeometryService.UNIT_SQUARE_MILES;
-      buffer1.geodesic = true;
+      hideEverything("buffer1");
+      if(buffer1Layer._div === null){
+        for ( i in latLonArray.points){
+          buffer = new Circle({
+            center: latLonArray.points[i],
+            geodesic: true,
+            radius: 1,
+            radiusUnit: "esriMiles"
+          });
+          var bufferCircle = new Graphic(buffer, bufferSymb);
+          buffer1Layer.add(bufferCircle);
+        }
+        $('#legendInfo').html('<p>1 Mile Radius</p>');
+        map.addLayer(buffer1Layer);
+        buffer1Layer.show();
+      }
+      else{
+        $('#legendInfo').html('<p>1 Mile Radius</p>');
+        buffer1Layer.show();
+      }
     });
   
     $('.buffer3').click(function(){
-      var buffer3 = new BufferParameters();
-      buffer3.distances = 3;
-      buffer3.geometries = latLonArray;
-      buffer3.unit = GeometryService.UNIT_SQUARE_MILES;
-      buffer3.geodesic = true;
+      hideEverything("buffer3");
+      if(buffer3Layer._div === null){
+        for ( i in latLonArray.points){
+          buffer = new Circle({
+            center: latLonArray.points[i],
+            geodesic: true,
+            radius: 3,
+            radiusUnit: "esriMiles"
+          });
+          var bufferCircle = new Graphic(buffer, bufferSymb);
+          buffer3Layer.add(bufferCircle);
+        }
+        $('#legendInfo').html('<p>3 Mile Radius</p>');
+        map.addLayer(buffer3Layer);
+        buffer3Layer.show();
+      }
+      else{
+        $('#legendInfo').html('<p>3 Mile Radius</p>');
+        buffer3Layer.show();
+      }
     });
 
-    geometryService.buffer(buffer1, function(geometries){
-      //when buffer is done set up renderer and add each geometry to the maps graphics layer as a graphic
-      var symbol = new SimpleFillSymbol();
-      symbol.setColor(new Color([100,100,100,0.25]));
-      symbol.setOutline(null);
-      array.forEach(geometries,function(geometry){
-        map.graphics.add(new Graphic(geometry,symbol));
-      });
+    $("#hideLayers").click(function(){
+      hideEverything();
     });
+
+    function hideEverything(type){
+      if(type === "buffer1"){
+        buffer3Layer.hide();
+      }
+      else if(type === "buffer3"){
+        buffer1Layer.hide();
+      }
+      else{
+        buffer1Layer.hide();
+        buffer3Layer.hide();
+      }
+    }
+
   });
+});
+
+$(document).ready(function(){
+  var count = 0;
+  for(i in markers){
+    var listItem = "<li>" + markers[count].label + "</li>";
+    $('#markerList').append(listItem);
+    count ++;
+  }
 });
