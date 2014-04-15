@@ -10,7 +10,8 @@ var map;
 require([ "esri/map",
           "esri/SpatialReference",
           "esri/InfoTemplate",
-          "esri/dijit/InfoWindow",
+          "esri/dijit/Popup",
+          "esri/dijit/PopupTemplate",
           "esri/geometry",
           "esri/geometry/Point",
           "esri/geometry/Multipoint",
@@ -26,16 +27,14 @@ require([ "esri/map",
           "esri/Color",
           "dojo/dom",
           "dojo/domReady!"
-        ], function(Map, InfoTemplate, InfoWindow, Geometry, SpatialReference, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, dom) { 
+        ], function(Map, InfoTemplate, Popup, PopupTemplate, Geometry, SpatialReference, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, dom) { 
   
-  var infoWindow = new esri.dijit.InfoWindow({}, dojo.create("div"));
-  infoWindow.startup();
+var popup = new Popup({}, dojo.create("div"));
 
   map = new Map("mapDiv", {
-    basemap: "osm",
-    infoWindow: infoWindow
+    basemap: "osm"
   });
-  map.infoWindow.resize(250, 300);
+
   //add points, markers, and numbers to map, center & zoom
   map.on("load", function(){
     var count = 0;
@@ -45,8 +44,8 @@ require([ "esri/map",
       var lat = markers[count].lat;
       var lon = markers[count].lon;
       var html = markers[count].html; /*for popups*/
-      var json = { content: html };
-      var infoTemplate = new InfoTemplate(json);
+      var popupTemplate = new esri.dijit.PopupTemplate();
+      popupTemplate.setContent(html);
       var p = new Point(lon, lat);
       latLonArray.addPoint(p);
       var s = new SimpleMarkerSymbol();
@@ -54,7 +53,7 @@ require([ "esri/map",
       var font = new Font("20pt", Font.ALIGN_END, Font.STYLE_ITALIC, Font.VARIANT_NORMAL, Font.WEIGHT_BOLD,"Helvetica");
       var t = new TextSymbol(num.toString()).setFont(font).setVerticalAlignment("bottom").setOffset(0, 5);
       var g = new Graphic(p, s);
-      g.setInfoTemplate(infoTemplate);
+      g.setInfoTemplate(popupTemplate);
       var textGraphic = new Graphic(p, t);
       pointLayer.add(textGraphic);
       pointLayer.add(g);
@@ -133,16 +132,15 @@ require([ "esri/map",
         buffer3Layer.hide();
       }
     }
-
   });
 });
 
 $(document).ready(function(){
-  var count = 0;
+  count = 0;
   for(i in markers){
     var listItem = "<li><a href='javascript:showInfo(" + count + ");'>" + markers[count].label + "</a></li>";
     $('#markerList').append(listItem);
-    count ++;
+    count++;
   }
 });
 
@@ -152,3 +150,5 @@ function showInfo(num){
   console.log(lat + lon);
   map.infoWindow.show(lon, lat);
 }
+
+
