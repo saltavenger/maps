@@ -29,7 +29,7 @@ require([ "esri/map",
           "dojo/domReady!"
         ], function(Map, InfoTemplate, Popup, PopupTemplate, Geometry, SpatialReference, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, dom) { 
   
-var popup = new Popup({}, dojo.create("div"));
+var popup = new Popup(null, dojo.create("div"));
 
   map = new Map("mapDiv", {
     basemap: "osm"
@@ -40,7 +40,10 @@ var popup = new Popup({}, dojo.create("div"));
     var count = 0;
     var pointLayer = new GraphicsLayer();
     var latLonArray = new Multipoint();
+    count = 0;
     for(i in markers){
+      var listItem = "<li><a class='showPopup' data-number='"+ count+"' href='javascript:void(0);'>" + markers[count].label + "</a></li>";
+      $('#markerList').append(listItem);
       var lat = markers[count].lat;
       var lon = markers[count].lon;
       var html = markers[count].html; /*for popups*/
@@ -69,6 +72,17 @@ var popup = new Popup({}, dojo.create("div"));
     var bufferSymb = new SimpleFillSymbol();
     var buffer1Layer = new GraphicsLayer();
     var buffer3Layer = new GraphicsLayer();
+
+  $('.showPopup').click(function(){
+    var num = (this.dataset.number);
+    var lat = markers[num].lat;
+    var lon = markers[num].lon;
+    var p = new Point(lon, lat);
+    var html = markers[num].html; /*for popups*/
+    map.infoWindow.setTitle("");
+    map.infoWindow.setContent(html);
+    map.infoWindow.show(p);
+  })
 
     $('.buffer1').click(function(){
       hideEverything("buffer1");
@@ -134,21 +148,3 @@ var popup = new Popup({}, dojo.create("div"));
     }
   });
 });
-
-$(document).ready(function(){
-  count = 0;
-  for(i in markers){
-    var listItem = "<li><a href='javascript:showInfo(" + count + ");'>" + markers[count].label + "</a></li>";
-    $('#markerList').append(listItem);
-    count++;
-  }
-});
-
-function showInfo(num){
-  var lat = markers[num].lat;
-  var lon = markers[num].lon;
-  console.log(lat + lon);
-  map.infoWindow.show(lon, lat);
-}
-
-
