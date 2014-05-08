@@ -9,7 +9,6 @@ var markers = [
 var map;
 require([ "esri/map",
           "esri/SpatialReference",
-          "esri/InfoTemplate",
           "esri/dijit/Popup",
           "esri/dijit/PopupTemplate",
           "esri/geometry",
@@ -25,14 +24,17 @@ require([ "esri/map",
           "esri/graphic",
           "esri/layers/GraphicsLayer",
           "esri/Color",
-          "dojo/dom",
+          "dojo/dom-class",
+          "dojo/dom-construct",
+          "dojo/on",
           "dojo/domReady!"
-        ], function(Map, InfoTemplate, Popup, PopupTemplate, Geometry, SpatialReference, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, dom) { 
-  
-var popup = new Popup(null, dojo.create("div"));
+        ], function(Map, SpatialReference, Popup, PopupTemplate, Geometry, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, domClass, domConstruct, on) { 
+
+var popup = Popup({highlight: false},domConstruct.create("div"));
 
   map = new Map("mapDiv", {
-    basemap: "osm"
+    basemap: "osm",
+    infoWindow: popup
   });
 
   //add points, markers, and numbers to map, center & zoom
