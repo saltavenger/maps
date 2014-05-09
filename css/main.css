@@ -10,3 +10,6 @@
 #legend{
 	clear: both;
 }
+.actionList .zoomTo{
+	display: none;
+}
