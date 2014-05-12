@@ -13,3 +13,7 @@
 .actionList .zoomTo{
 	display: none;
 }
+.actionList{
+	font-family: Arial;
+	font-size: x-small;
+}
