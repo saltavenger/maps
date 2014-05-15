@@ -10,6 +10,18 @@
 #legend{
 	clear: both;
 }
+#legendControls{
+	margin-bottom: 20px;
+}
+#legendInfo{
+	margin: 10px 10px 10px 20px;
+	padding-left: 10px;
+	border: 2px solid #000;
+	border-radius: 4px;
+	width: 200px;
+	height: 60px;
+	display: none;
+}
 .actionList .zoomTo{
 	display: none;
 }
@@ -19,4 +31,7 @@
 }
 .clearBoth{
 	clear: both;
+}
+.bold{
+	font-weight: bold;
 }

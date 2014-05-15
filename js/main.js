@@ -83,7 +83,7 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
     var buffer3SingleLayer = new GraphicsLayer();
 
   $('.showPopup').click(function(){
-    var num = (this.dataset.number);
+    var num = $(this).data("number");
     var lat = markers[num].lat;
     var lon = markers[num].lon;
     var p = new Point(lon, lat);
@@ -128,7 +128,8 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
       });
       var bufferCircle = new Graphic(buffer, bufferSymb);
       buffer1SingleLayer.add(bufferCircle);
-      $('#legendInfo').html('<p>1 Mile Radius</p>');
+      $('#legendInfo').css('display', 'block');
+      $('#legendInfo').html('<p class="bold">1 Mile Radius</p>');
       map.addLayer(buffer1SingleLayer);
       buffer1SingleLayer.show();
     }
@@ -142,7 +143,8 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
       });
       var bufferCircle = new Graphic(buffer, bufferSymb);
       buffer1SingleLayer.add(bufferCircle);
-      $('#legendInfo').html('<p>1 Mile Radius</p>');
+      $('#legendInfo').css('display', 'block');
+      $('#legendInfo').html('<p class="bold">1 Mile Radius</p>');
       map.addLayer(buffer1SingleLayer);
       buffer1SingleLayer.show();
     }
@@ -163,7 +165,8 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
       });
       var bufferCircle = new Graphic(buffer, bufferSymb);
       buffer3SingleLayer.add(bufferCircle);
-      $('#legendInfo').html('<p>3 Mile Radius</p>');
+      $('#legendInfo').css('display', 'block');
+      $('#legendInfo').html('<p class="bold">3 Mile Radius</p>');
       map.addLayer(buffer3SingleLayer);
       buffer3SingleLayer.show();
     }
@@ -177,7 +180,8 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
       });
       var bufferCircle = new Graphic(buffer, bufferSymb);
       buffer3SingleLayer.add(bufferCircle);
-      $('#legendInfo').html('<p>3 Mile Radius</p>');
+      $('#legendInfo').css('display', 'block');
+      $('#legendInfo').html('<p class="bold">3 Mile Radius</p>');
       map.addLayer(buffer3SingleLayer);
       buffer3SingleLayer.show();
     }
@@ -196,12 +200,14 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
         var bufferCircle = new Graphic(buffer, bufferSymb);
         buffer1Layer.add(bufferCircle);
       }
-      $('#legendInfo').html('<p>1 Mile Radius</p>');
+      $('#legendInfo').css('display', 'block');
+      $('#legendInfo').html('<p class="bold">1 Mile Radius</p>');
       map.addLayer(buffer1Layer);
       buffer1Layer.show();
     }
     else{
-      $('#legendInfo').html('<p>1 Mile Radius</p>');
+      $('#legendInfo').css('display', 'block');
+      $('#legendInfo').html('<p class="bold">1 Mile Radius</p>');
       buffer1Layer.show();
     }
   }
@@ -219,12 +225,14 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
         var bufferCircle = new Graphic(buffer, bufferSymb);
         buffer3Layer.add(bufferCircle);
       }
-      $('#legendInfo').html('<p>3 Mile Radius</p>');
+      $('#legendInfo').css('display', 'block');
+      $('#legendInfo').html('<p class="bold">3 Mile Radius</p>');
       map.addLayer(buffer3Layer);
       buffer3Layer.show();
     }
     else{
-      $('#legendInfo').html('<p>3 Mile Radius</p>');
+      $('#legendInfo').css('display', 'block');
+      $('#legendInfo').html('<p class="bold">3 Mile Radius</p>');
       buffer3Layer.show();
     }
   }
@@ -232,6 +240,7 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
     $("#hideLayers").click(function(){
       hideEverything();
       $('#legendInfo').empty();
+      $('#legendInfo').css('display', 'hidden');
     });
 
     function hideEverything(){
@@ -245,6 +254,7 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
 
 
 $(document).ready(function(){
+  $("#hideLayers").kendoButton();
   var data = [];
   for(i in markers){
     var dataObject = {mapNum: parseInt(i)+1, facName: markers[i].nameLink, address: markers[i].address, triID: markers[i].triID, lat: markers[i].lat, lon: markers[i].lon};
@@ -263,7 +273,8 @@ $(document).ready(function(){
     columns: [
         {
           field: "mapNum",
-          title: " "
+          title: " ",
+          width: "60px"
         },
         {
             field: "facName",
