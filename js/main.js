@@ -1,9 +1,9 @@
 var markers = [
-{ lat:'34.256535', lon:'-92.052418', html:'<font face=Arial size=1><a href="http://oaspub.epa.gov/enviro/tris_control.tris_print?tris_id=71602TRFLR5100I" target=_blank>ARCELORMITTAL PINE BLUFF</a><br>5100 INDUSTRIAL DR S, PINE BLUFF ARKANSAS 71602 (JEFFERSON), PINE BLUFF, AR 71602<br>TRI ID = 71602TRFLR5100I<br>Latitude <span class="lat">34.256535</span>&nbsp; Longitude <span class="lon">-92.052418</span></font>', label:'ARCELORMITTAL PINE BLUFF', ej1:'0.607,0.448,0.018,0.402,0.581,0.003,0.393,0.167,0.244,0.085', ej3:'0.583,0.263,0.009,0.422,0.560,0.005,0.317,0.186,0.273,0.124' },
-{ lat:'34.257073', lon:'-92.062488', html:'<font face=Arial size=1><a href="http://oaspub.epa.gov/enviro/tris_control.tris_print?tris_id=71602FLRDD3300N" target=_blank>BERENFIELD CONTAINERS SW LTD</a><br>3300 N HUTCHINSON ST, WHITE HALL ARKANSAS 71602 (JEFFERSON), WHITE HALL, AR 71602<br>TRI ID = 71602FLRDD3300N<br>Latitude <span class="lat">34.257073</span>&nbsp; Longitude <span class="lon">-92.062488</span></font>', label:'BERENFIELD CONTAINERS SW LTD', ej1:'0.376,0.303,0.012,0.632,0.350,0.004,0.297,0.170,0.290,0.108', ej3:'0.514,0.245,0.010,0.491,0.490,0.006,0.299,0.183,0.275,0.136' },
-{ lat:'34.2656', lon:'-92.0261', html:'<font face=Arial size=1><a href="http://oaspub.epa.gov/enviro/tris_control.tris_print?tris_id=71602GYLRD500MC" target=_blank>DELTA NATURAL KRAFT</a><br>1701 JEFFERSON PKWY, PINE BLUFF ARKANSAS 71611 (JEFFERSON), PINE BLUFF, AR 71611<br>TRI ID = 71602GYLRD500MC<br>Latitude <span class="lat">34.2656</span>&nbsp; Longitude <span class="lon">-92.0261</span></font>', label:'DELTA NATURAL KRAFT', ej1:'0.973,0.421,0.002,0.027,0.965,0.000,0.296,0.235,0.358,0.037', ej3:'0.706,0.336,0.010,0.298,0.685,0.003,0.373,0.198,0.273,0.081' },
-{ lat:'34.221569', lon:'-91.907406', html:'<font face=Arial size=1><a href="http://oaspub.epa.gov/enviro/tris_control.tris_print?tris_id=71611NTRNTFAIRF" target=_blank>EVERGREEN PACKAGING</a><br>5201 FAIRFIELD RD, PINE BLUFF ARKANSAS 71601 (JEFFERSON), PINE BLUFF, AR 71601<br>TRI ID = 71611NTRNTFAIRF<br>Latitude <span class="lat">34.221569</span>&nbsp; Longitude <span class="lon">-91.907406</span><br></font>', label:'EVERGREEN PACKAGING', ej1:'0.500,0.152,0.063,0.531,0.438,0.000,0.231,0.231,0.308,0.077', ej3:'0.529,0.247,0.033,0.482,0.485,0.002,0.268,0.216,0.301,0.098' },
-{ lat:'33.138611', lon:'-91.966667', html:'<font face=Arial size=1><a href="http://oaspub.epa.gov/enviro/tris_control.tris_print?tris_id=71635GRGPCPAPER" target=_blank>GEORGIA-PACIFIC CROSSETT PLYWOOD/STUDMI LL COMPLEX</a><br>101 PLYWOOD MILL RD, CROSSETT ARKANSAS 71635 (ASHLEY), CROSSETT, AR 71635<br>TRI ID = 71635GRGPCPAPER<br>Latitude <span class="lat">33.138611</span>&nbsp; Longitude <span class="lon">-91.966667</span></font>', label:'GEORGIA-PACIFIC CROSSETT PLYWOOD/STUDMI LL COMPLEX', ej1:'0.693,0.284,0.014,0.308,0.672,0.004,0.413,0.094,0.250,0.133', ej3:'0.383,0.176,0.017,0.623,0.359,0.004,0.255,0.129,0.329,0.167' }
+{ lat:'34.256535', lon:'-92.052418', nameLink:'<a href="http://oaspub.epa.gov/enviro/tris_control.tris_print?tris_id=71602TRFLR5100I" target=_blank>ARCELORMITTAL PINE BLUFF</a>', address: '5100 INDUSTRIAL DR S, PINE BLUFF ARKANSAS 71602 (JEFFERSON), PINE BLUFF, AR 71602<br>', triID: '71602TRFLR5100I', latLonHtml: 'Latitude <span class="lat">34.256535</span>&nbsp; Longitude <span class="lon">-92.052418</span>', label:'ARCELORMITTAL PINE BLUFF', ej1:'0.607,0.448,0.018,0.402,0.581,0.003,0.393,0.167,0.244,0.085', ej3:'0.583,0.263,0.009,0.422,0.560,0.005,0.317,0.186,0.273,0.124' },
+{ lat:'34.257073', lon:'-92.062488', nameLink:'<a href="http://oaspub.epa.gov/enviro/tris_control.tris_print?tris_id=71602FLRDD3300N" target=_blank>BERENFIELD CONTAINERS SW LTD</a>', address: '3300 N HUTCHINSON ST, WHITE HALL ARKANSAS 71602 (JEFFERSON), WHITE HALL, AR 71602', triID: '71602FLRDD3300N', latLonHtml: 'Latitude <span class="lat">34.257073</span>&nbsp; Longitude <span class="lon">-92.062488</span>', label:'BERENFIELD CONTAINERS SW LTD', ej1:'0.376,0.303,0.012,0.632,0.350,0.004,0.297,0.170,0.290,0.108', ej3:'0.514,0.245,0.010,0.491,0.490,0.006,0.299,0.183,0.275,0.136' },
+{ lat:'34.2656', lon:'-92.0261', nameLink:'<a href="http://oaspub.epa.gov/enviro/tris_control.tris_print?tris_id=71602GYLRD500MC" target=_blank>DELTA NATURAL KRAFT</a>', address: '1701 JEFFERSON PKWY, PINE BLUFF ARKANSAS 71611 (JEFFERSON), PINE BLUFF, AR 71611', triID: '71602GYLRD500MC', latLonHtml: 'Latitude <span class="lat">34.2656</span>&nbsp; Longitude <span class="lon">-92.0261</span>', label:'DELTA NATURAL KRAFT', ej1:'0.973,0.421,0.002,0.027,0.965,0.000,0.296,0.235,0.358,0.037', ej3:'0.706,0.336,0.010,0.298,0.685,0.003,0.373,0.198,0.273,0.081' },
+{ lat:'34.221569', lon:'-91.907406', nameLink:'<a href="http://oaspub.epa.gov/enviro/tris_control.tris_print?tris_id=71611NTRNTFAIRF" target=_blank>EVERGREEN PACKAGING</a>', address: '5201 FAIRFIELD RD, PINE BLUFF ARKANSAS 71601 (JEFFERSON), PINE BLUFF, AR 71601', triID: '71611NTRNTFAIRF', latLonHtml: 'Latitude <span class="lat">34.221569</span>&nbsp; Longitude <span class="lon">-91.907406</span><br>', label:'EVERGREEN PACKAGING', ej1:'0.500,0.152,0.063,0.531,0.438,0.000,0.231,0.231,0.308,0.077', ej3:'0.529,0.247,0.033,0.482,0.485,0.002,0.268,0.216,0.301,0.098' },
+{ lat:'33.138611', lon:'-91.966667', nameLink:'<a href="http://oaspub.epa.gov/enviro/tris_control.tris_print?tris_id=71635GRGPCPAPER" target=_blank>GEORGIA-PACIFIC CROSSETT PLYWOOD/STUDMI LL COMPLEX</a>', address: '101 PLYWOOD MILL RD, CROSSETT ARKANSAS 71635 (ASHLEY), CROSSETT, AR 71635', triID: '71635GRGPCPAPER', latLonHtml: 'Latitude <span class="lat">33.138611</span>&nbsp; Longitude <span class="lon">-91.966667</span>', label:'GEORGIA-PACIFIC CROSSETT PLYWOOD/STUDMI LL COMPLEX', ej1:'0.693,0.284,0.014,0.308,0.672,0.004,0.413,0.094,0.250,0.133', ej3:'0.383,0.176,0.017,0.623,0.359,0.004,0.255,0.129,0.329,0.167' }
 ];
 
 var map;
@@ -19,6 +19,7 @@ require([ "esri/map",
           "esri/symbols/SimpleFillSymbol",
           "esri/symbols/SimpleLineSymbol",
           "esri/symbols/SimpleMarkerSymbol",
+          "esri/symbols/PictureFillSymbol",
           "esri/symbols/Font",
           "esri/symbols/TextSymbol",
           "esri/graphic",
@@ -29,7 +30,7 @@ require([ "esri/map",
           "dojo/on",
           "dojo/query",
           "dojo/domReady!"
-        ], function(Map, SpatialReference, Popup, PopupTemplate, Geometry, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, domClass, domConstruct, on, query) { 
+        ], function(Map, SpatialReference, Popup, PopupTemplate, Geometry, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, PictureFillSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, domClass, domConstruct, on, query) { 
 
 var popup = Popup({highlight: false},domConstruct.create("div"));
 
@@ -49,7 +50,10 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
       $('#markerList').append(listItem);
       var lat = markers[count].lat;
       var lon = markers[count].lon;
-      var html = markers[count].html; /*for popups*/
+      var html = "<p>" + markers[count].nameLink + "</p>"; /*for popups*/
+      html += "<p>" + markers[count].address + "</p>";
+      html += "<p>TRI ID= " + markers[count].triID + "</p>";
+      html += "<p>" + markers[count].latLonHtml + "</p>";
       var popupTemplate = new esri.dijit.PopupTemplate();
       popupTemplate.setContent(html);
       var p = new Point(lon, lat);
@@ -70,7 +74,7 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
     map.setExtent(setMap.expand(2));
     map.addLayer(pointLayer);
     
-    //buffer
+    //additional graphic layers
 
     var bufferSymb = new SimpleFillSymbol();
     var buffer1Layer = new GraphicsLayer();
@@ -83,7 +87,10 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
     var lat = markers[num].lat;
     var lon = markers[num].lon;
     var p = new Point(lon, lat);
-    var html = markers[num].html; /*for popups*/
+    var html = "<p>" + markers[num].nameLink + "</p>"; /*for popups*/
+    html += "<p>" + markers[num].address + "</p>";
+    html += "<p>TRI ID= " + markers[num].triID + "</p>";
+    html += "<p>" + markers[num].latLonHtml + "</p>";
     map.infoWindow.setTitle("");
     map.infoWindow.setContent(html);
     map.infoWindow.show(p);
@@ -235,3 +242,124 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
     }
   });
 });
+
+
+$(document).ready(function(){
+  var data = [];
+  for(i in markers){
+    var dataObject = {mapNum: parseInt(i)+1, facName: markers[i].nameLink, address: markers[i].address, triID: markers[i].triID, lat: markers[i].lat, lon: markers[i].lon};
+    data.push(dataObject);
+  }
+
+  var element = $("#grid").kendoGrid({
+    dataSource: data,
+    sortable: true,
+    pageable: true,
+    detailTemplate: kendo.template($("#template").html()),
+    detailInit: detailInit,
+    dataBound: function() {
+        this.expandRow(this.tbody.find("tr.k-master-row").first());
+    },
+    columns: [
+        {
+          field: "mapNum",
+          title: " "
+        },
+        {
+            field: "facName",
+            title: "Facility Name",
+            encoded: false
+        },
+        {
+            field: "address",
+            title: "Address",
+            encoded: false
+        },
+        {
+            field: "triID",
+            title: "TRI ID"
+        },
+        {
+            field: "lat",
+            title: "Latitude"
+        },
+        {
+            field: "lon",
+            title: "Longitude"
+        }
+    ],
+    schema: {
+      model: {
+        fields: {
+          mapNum: { type: "number"},
+          lat: { type: "number" },
+          lon: { type: "number" }
+        }
+      }
+    }
+  });
+
+});
+
+function detailInit(e) {
+    var detailRow = e.detailRow;
+
+    detailRow.find(".tabstrip").kendoTabStrip({
+        animation: {
+            open: { effects: "fadeIn" }
+        }
+    });
+
+    detailRow.find(".panelBar").kendoPanelBar({
+      expandMode: "single"
+    });
+
+    for(i in markers){
+      var string1 = markers[i].ej1;
+      var allData1 = string1.split(",");
+      var minorityData1 = [{ category: "Minority", value: allData1[0] }, {category: "Other", value: 1-allData1[0], valueColor: "#000"}];
+      var povertyData1 = [{ category: "Poverty", value: allData1[1] }, {category: "Other", value: 1-allData1[1], valueColor: "#000"}];
+      var hispanicData1 = [{ category: "Hispanic", value: allData1[2] }, {category: "Other", value: 1-allData1[2], valueColor: "#000"}];
+      var incomeData1 = [{ category: "Income1", value: allData1[6] },{ category: "Income2", value: allData1[7] }, { category: "Income3", value: allData1[8] }, { category: "Income4", value: allData1[9] } ];
+      var raceData1 = [{ category: "Hispanic", value: allData1[2] },{ category: "White", value: allData1[3] }, { category: "Black", value: allData1[4] }, { category: "Asian", value: allData1[5] } ];
+
+      var panelNum = parseInt(i) + 1;
+      createPie("panel" + panelNum, "minority1", minorityData1);
+      createPie("panel" + panelNum, "poverty1", povertyData1);
+      createPie("panel" + panelNum, "hispanic1", hispanicData1);
+      createPie("panel" + panelNum, "income1", incomeData1);
+      createPie("panel" + panelNum, "race1", raceData1);
+
+      var string3 = markers[i].ej3;
+      var allData3 = string1.split(",");
+      var minorityData3 = [{ category: "Minority", value: allData3[0] }, {category: "Other", value: 1-allData3[0], valueColor: "#000"}];
+      var povertyData3 = [{ category: "Poverty", value: allData3[1] }, {category: "Other", value: 1-allData3[1], valueColor: "#000"}];
+      var hispanicData3 = [{ category: "Hispanic", value: allData3[2] }, {category: "Other", value: 1-allData3[2], valueColor: "#000"}];
+      var incomeData3 = [{ category: "Income1", value: allData3[6] },{ category: "Income2", value: allData3[7] }, { category: "Income3", value: allData3[8] }, { category: "Income4", value: allData3[9] } ];
+      var raceData3 = [{ category: "Hispanic", value: allData3[2] },{ category: "White", value: allData3[3] }, { category: "Black", value: allData3[4] }, { category: "Asian", value: allData3[5] } ];
+
+      createPie("panel_2_" + panelNum, "minority3", minorityData3);
+      createPie("panel_2_" + panelNum, "poverty3", povertyData3);
+      createPie("panel_2_" + panelNum, "hispanic3", hispanicData3);
+      createPie("panel_2_" + panelNum, "income3", incomeData3);
+      createPie("panel_2_" + panelNum, "race3", raceData3);
+    }
+}
+
+function createPie(id, className, data, title){
+  $("#" + id + " ." + className).kendoChart({
+    series: [{
+      colorField: "valueColor",
+      type: "pie",
+      data: data
+    }],
+    legend:{
+      position: "top"
+    },
+    tooltip: {
+      visible: true,
+      template: "#= category # - #= kendo.format('{0:P}', percentage) #"
+    },
+    seriesColors: ["#d7191c", "#fdae61", "#abdda4", "#2b83ba"]
+  });
+}

@@ -4,9 +4,14 @@
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
       <title>TRI Mapping</title>
+      <link href="js/kendo/styles/kendo.common.min.css" rel="stylesheet" />
+      <link href="js/kendo/styles/kendo.bootstrap.min.css" rel="stylesheet" />
+      <link href="js/kendo/styles/kendo.dataviz.min.css" rel="stylesheet" />
+      <link href="js/kendo/styles/kendo.dataviz.flat.min.css" rel="stylesheet" />
       <link rel="stylesheet" href="css/main.css">
       <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css">
       <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+      <script src="js/kendo/js/kendo.all.min.js"></script>
   	  <script src="http://js.arcgis.com/3.9/"></script>
       <script src="js/main.js"></script>
     </head>
@@ -15,15 +20,81 @@
       <div id="mapNav">
         <ol id="markerList"></ol>
       </div>
-      <div
       <div id="legend">
         <div id="legendControls">
-          <p>EJ 1 Mile: <a href="javascript:void(0);" class="buffer1">Buffer</a> <a href="javascript:void(0);" class="minority1">Minority</a> <a href="javascript:void(0);" class="poverty1">Poverty</a> <a href="javascript:void(0);" class="hispanic1">Hispanic</a> <a href="javascript:void(0);" class="income1">Income</a> <a href="javascript:void(0);" class="race1">Race</a></p>
-          <p>EJ 3 Mile: <a href="javascript:void(0);" class="buffer3">Buffer</a> <a href="javascript:void(0);" class="minority3">Minority</a> <a href="javascript:void(0);" class="poverty3">Poverty</a> <a href="javascript:void(0);" class="hispanic3">Hispanic</a> <a href="javascript:void(0);" class="income3">Income</a> <a href="javascript:void(0);" class="race3">Race</a></p>
+          <p>EJ 1 Mile: <a href="javascript:void(0);" class="buffer1">Buffer</a></p>
+          <p>EJ 3 Mile: <a href="javascript:void(0);" class="buffer3">Buffer</a></p>
           <button id="hideLayers">Clear All</button>
         </div>
-        <div id="legendInfo">
-        </div>
+        <div id="legendInfo"></div>
       </div>
+      <div id="grid" class="clearBoth"></div>
+
+      <script type="text/x-kendo-template" id="template">
+          <div class="tabstrip">
+              <ul>
+                  <li class="k-state-active">
+                     EJ 1 Mile
+                  </li>
+                  <li>
+                      EJ 3 Mile
+                  </li>
+              </ul>
+              <div>
+                  <div>
+                    <p>Environmental Justice Demographics 1 Mile Radius</p>
+                    <ul id="panel#: mapNum#" class="panelBar">
+                      <li>
+                        Minority
+                        <div class="minority1"></div>
+                      </li>
+                      <li>
+                        Poverty
+                        <div class="poverty1"></div>
+                      </li>
+                      <li>
+                        Hispanic
+                        <div class="hispanic1"></div>
+                      </li>
+                      <li>
+                        Income
+                        <div class="income1"></div>
+                      </li>
+                      <li>
+                        Race
+                        <div class="race1"></div>
+                      </li>
+                    </ul>
+                  </div>
+              </div>
+              <div>
+                  <div>
+                    <p>Environmental Justice Demographics 3 Mile Radius</p>
+                    <ul id="panel_2_#: mapNum#" class="panelBar">
+                      <li>
+                        Minority
+                        <div class="minority3"></div>
+                      </li>
+                      <li>
+                        Poverty
+                        <div class="poverty3"></div>
+                      </li>
+                      <li>
+                        Hispanic
+                        <div class="hispanic3"></div>
+                      </li>
+                      <li>
+                        Income
+                        <div class="income3"></div>
+                      </li>
+                      <li>
+                        Race
+                        <div class="race3"></div>
+                      </li>
+                    </ul>
+                  </div>
+              </div>
+          </div>
+      </script>
    	</body>
   </html>

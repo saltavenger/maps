@@ -2,10 +2,10 @@
 	float: left;
 }
 #mapDiv{
-	width: 800px;
+	width: 70%
 }
 #mapNav{
-	width: 400px;
+	width: 30%;
 }
 #legend{
 	clear: both;
@@ -13,7 +13,10 @@
 .actionList .zoomTo{
 	display: none;
 }
-.actionList{
+.esriPopupWrapper{
 	font-family: Arial;
 	font-size: x-small;
+}
+.clearBoth{
+	clear: both;
 }
