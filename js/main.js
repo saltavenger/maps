@@ -175,6 +175,7 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
       $('#legendInfo').css('display', 'block');
       $('#legendInfo').html('<p class="bold">1 Mile Radius</p>');
       map.addLayer(buffer1SingleLayer);
+      map.reorderLayer(buffer1SingleLayer, 0);
       buffer1SingleLayer.show();
     }
     else{
@@ -190,6 +191,7 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
       $('#legendInfo').css('display', 'block');
       $('#legendInfo').html('<p class="bold">1 Mile Radius</p>');
       map.addLayer(buffer1SingleLayer);
+      map.reorderLayer(buffer1SingleLayer, 0);
       buffer1SingleLayer.show();
     }
   }
@@ -212,6 +214,7 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
       $('#legendInfo').css('display', 'block');
       $('#legendInfo').html('<p class="bold">3 Mile Radius</p>');
       map.addLayer(buffer3SingleLayer);
+      map.reorderLayer(buffer3SingleLayer, 0);
       buffer3SingleLayer.show();
     }
     else{
@@ -227,6 +230,7 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
       $('#legendInfo').css('display', 'block');
       $('#legendInfo').html('<p class="bold">3 Mile Radius</p>');
       map.addLayer(buffer3SingleLayer);
+      map.reorderLayer(buffer3SingleLayer, 0);
       buffer3SingleLayer.show();
     }
   }
@@ -247,6 +251,7 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
       $('#legendInfo').css('display', 'block');
       $('#legendInfo').html('<p class="bold">1 Mile Radius</p>');
       map.addLayer(buffer1Layer);
+      map.reorderLayer(buffer1Layer, 0);
       buffer1Layer.show();
     }
     else{
@@ -272,6 +277,7 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
       $('#legendInfo').css('display', 'block');
       $('#legendInfo').html('<p class="bold">3 Mile Radius</p>');
       map.addLayer(buffer3Layer);
+      map.reorderLayer(buffer3Layer, 0);
       buffer3Layer.show();
     }
     else{
