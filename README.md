@@ -1,4 +1,4 @@
 maps
 ====
 
-arcgis map w/ leaflet plugin
+arcgis map w/ kendo data visualization
