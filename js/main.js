@@ -11,6 +11,7 @@ require([ "esri/map",
           "esri/SpatialReference",
           "esri/dijit/Popup",
           "esri/dijit/PopupTemplate",
+          "esri/dijit/HomeButton",
           "esri/geometry",
           "esri/geometry/Point",
           "esri/geometry/Multipoint",
@@ -30,7 +31,7 @@ require([ "esri/map",
           "dojo/on",
           "dojo/query",
           "dojo/domReady!"
-        ], function(Map, SpatialReference, Popup, PopupTemplate, Geometry, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, PictureFillSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, domClass, domConstruct, on, query) { 
+        ], function(Map, SpatialReference, Popup, PopupTemplate, HomeButton, Geometry, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, PictureFillSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, domClass, domConstruct, on, query) { 
 
 var popup = Popup({highlight: false},domConstruct.create("div"));
 
@@ -38,6 +39,13 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
     basemap: "osm",
     infoWindow: popup
   });
+
+  var home = new HomeButton({
+        map: map
+      }, "HomeButton");
+      home.startup();
+
+  var iconPath = "M14.555,26.945C14.503,26.406,16.343,21.792,9.406,15c-1.5-1.469-4.302-3.906-4.302-6.577c0-4.154,4.431-7.521,9.896-7.521h-0.156c5.465,0,9.897,3.367,9.897,7.521c0,2.67-2.803,5.108-4.303,6.577c-6.938,6.792-5.098,11.406-5.15,11.945H14.555z M15.031,5.688c-2.882,0-5.219,1.063-5.219,2.375s2.336,2.375,5.219,2.375c2.882,0,5.219-1.063,5.219-2.375S17.913,5.688,15.031,5.688z";
 
   //add points, markers, and numbers to map, center & zoom
   map.on("load", function(){
@@ -59,9 +67,13 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
       var p = new Point(lon, lat);
       latLonArray.addPoint(p);
       var s = new SimpleMarkerSymbol();
+      s.setPath(iconPath);
+      s.setColor(new dojo.Color("#2b83ba"));
+      s.setOutline(null);
+      s.setSize(30);
       var num = count + 1;
       var font = new Font("20pt", Font.ALIGN_END, Font.STYLE_ITALIC, Font.VARIANT_NORMAL, Font.WEIGHT_BOLD,"Helvetica");
-      var t = new TextSymbol(num.toString()).setFont(font).setVerticalAlignment("bottom").setOffset(0, 5);
+      var t = new TextSymbol(num.toString()).setFont(font).setVerticalAlignment("bottom").setOffset(0, 10);
       var g = new Graphic(p, s);
       g.setInfoTemplate(popupTemplate);
       var textGraphic = new Graphic(p, t);
@@ -72,11 +84,43 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
 
     var setMap = latLonArray.getExtent();
     map.setExtent(setMap.expand(2));
+    home.extent = setMap.expand(2);
     map.addLayer(pointLayer);
+
+    //hover & click color for markers
+    pointLayer.on("mouse-over", function(evt){
+      if(evt.graphic.symbol.type != "textsymbol"){
+        evt.graphic.symbol.color.setColor(new dojo.Color("#d7191c"));
+        pointLayer.redraw();
+      }
+    });
+
+    pointLayer.on("mouse-down", function(evt){
+      if(evt.graphic.symbol.type != "textsymbol"){
+        evt.graphic.symbol.color.setColor(new dojo.Color("#1A608D"));
+        pointLayer.redraw();
+      }
+    });
+
+    pointLayer.on("mouse-out", function(evt){
+      if(evt.graphic.symbol.type != "textsymbol"){
+        evt.graphic.symbol.color.setColor(new dojo.Color("#2b83ba"));
+        pointLayer.redraw();
+      }
+    });
+
+     pointLayer.on("mouse-up", function(evt){
+      if(evt.graphic.symbol.type != "textsymbol"){
+        evt.graphic.symbol.color.setColor(new dojo.Color("#2b83ba"));
+        pointLayer.redraw();
+      }
+    });
     
     //additional graphic layers
 
     var bufferSymb = new SimpleFillSymbol();
+    bufferSymb.setOutline(null);
+    bufferSymb.setColor(new dojo.Color([105, 137, 158, 0.45]));
     var buffer1Layer = new GraphicsLayer();
     var buffer1SingleLayer = new GraphicsLayer();
     var buffer3Layer = new GraphicsLayer();
@@ -97,8 +141,8 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
     $('.actionList').removeClass('hidden');
   });
 
-  domConstruct.create("p", { "id": "ejMile1", "innerHTML": "EJ Mile 1: "}, query(".actionList", window.map.infoWindow.domNode)[0]);
-    domConstruct.create("p", { "id": "ejMile3", "innerHTML": "EJ Mile 3: "}, query(".actionList", window.map.infoWindow.domNode)[0]);
+  domConstruct.create("p", { "id": "ejMile1", "class": "bold", "innerHTML": "EJ Mile 1: "}, query(".actionList", window.map.infoWindow.domNode)[0]);
+  domConstruct.create("p", { "id": "ejMile3", "class": "bold", "innerHTML": "EJ Mile 3: "}, query(".actionList", window.map.infoWindow.domNode)[0]);
   var buffer1Link = domConstruct.create("a", { "class": "buffer1Single", "innerHTML": "Demographics", "href": "javascript:void(0);"}, query("#ejMile1", window.map.infoWindow.domNode)[0]);
   var buffer3Link = domConstruct.create("a", { "class": "buffer3Single", "innerHTML": "Demographics", "href": "javascript:void(0);"}, query("#ejMile3", window.map.infoWindow.domNode)[0]);
   query('.buffer1Single').on("click", buffer1Single);
@@ -321,10 +365,6 @@ function detailInit(e) {
         }
     });
 
-    detailRow.find(".panelBar").kendoPanelBar({
-      expandMode: "single"
-    });
-
     for(i in markers){
       var string1 = markers[i].ej1;
       var allData1 = string1.split(",");
@@ -335,11 +375,11 @@ function detailInit(e) {
       var raceData1 = [{ category: "Hispanic", value: allData1[2] },{ category: "White", value: allData1[3] }, { category: "Black", value: allData1[4] }, { category: "Asian", value: allData1[5] } ];
 
       var panelNum = parseInt(i) + 1;
-      createPie("panel" + panelNum, "minority1", minorityData1);
-      createPie("panel" + panelNum, "poverty1", povertyData1);
-      createPie("panel" + panelNum, "hispanic1", hispanicData1);
-      createPie("panel" + panelNum, "income1", incomeData1);
-      createPie("panel" + panelNum, "race1", raceData1);
+      createPie("panel" + panelNum, "minority1", minorityData1, "Percent Minority");
+      createPie("panel" + panelNum, "poverty1", povertyData1, "Poverty");
+      createPie("panel" + panelNum, "hispanic1", hispanicData1, "Hispanic Population");
+      createPie("panel" + panelNum, "income1", incomeData1, "Income Data");
+      createPie("panel" + panelNum, "race1", raceData1, "Race");
 
       var string3 = markers[i].ej3;
       var allData3 = string1.split(",");
@@ -349,11 +389,11 @@ function detailInit(e) {
       var incomeData3 = [{ category: "Income1", value: allData3[6] },{ category: "Income2", value: allData3[7] }, { category: "Income3", value: allData3[8] }, { category: "Income4", value: allData3[9] } ];
       var raceData3 = [{ category: "Hispanic", value: allData3[2] },{ category: "White", value: allData3[3] }, { category: "Black", value: allData3[4] }, { category: "Asian", value: allData3[5] } ];
 
-      createPie("panel_2_" + panelNum, "minority3", minorityData3);
-      createPie("panel_2_" + panelNum, "poverty3", povertyData3);
-      createPie("panel_2_" + panelNum, "hispanic3", hispanicData3);
-      createPie("panel_2_" + panelNum, "income3", incomeData3);
-      createPie("panel_2_" + panelNum, "race3", raceData3);
+      createPie("panel_2_" + panelNum, "minority3", minorityData3, "Percent Minority");
+      createPie("panel_2_" + panelNum, "poverty3", povertyData3, "Poverty");
+      createPie("panel_2_" + panelNum, "hispanic3", hispanicData3, "Hispanic Population");
+      createPie("panel_2_" + panelNum, "income3", incomeData3, "Income");
+      createPie("panel_2_" + panelNum, "race3", raceData3, "Race");
     }
 }
 
@@ -364,6 +404,9 @@ function createPie(id, className, data, title){
       type: "pie",
       data: data
     }],
+    title: {
+      text: title
+    },
     legend:{
       position: "top"
     },

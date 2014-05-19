@@ -16,14 +16,18 @@
       <script src="js/main.js"></script>
     </head>
     <body class="claro">
-    	<div id="mapDiv"></div>
-      <div id="mapNav">
-        <ol id="markerList"></ol>
+      <div id="mapWrap"class="clearfix">
+      	<div id="mapDiv">
+          <div id="HomeButton"></div>
+        </div>
+        <div id="mapNav">
+          <ol id="markerList"></ol>
+        </div>
       </div>
       <div id="legend">
         <div id="legendControls">
-          <p>EJ 1 Mile: <a href="javascript:void(0);" class="buffer1">Buffer</a></p>
-          <p>EJ 3 Mile: <a href="javascript:void(0);" class="buffer3">Buffer</a></p>
+          <p class="bold">EJ 1 Mile: <a href="javascript:void(0);" class="buffer1">Buffer</a></p>
+          <p class="bold">EJ 3 Mile: <a href="javascript:void(0);" class="buffer3">Buffer</a></p>
           <button id="hideLayers">Clear All</button>
         </div>
         <div id="legendInfo"></div>
@@ -41,57 +45,27 @@
                   </li>
               </ul>
               <div>
-                  <div>
+                  <div class="clearBoth">
                     <p>Environmental Justice Demographics 1 Mile Radius</p>
-                    <ul id="panel#: mapNum#" class="panelBar">
-                      <li>
-                        Minority
-                        <div class="minority1"></div>
-                      </li>
-                      <li>
-                        Poverty
-                        <div class="poverty1"></div>
-                      </li>
-                      <li>
-                        Hispanic
-                        <div class="hispanic1"></div>
-                      </li>
-                      <li>
-                        Income
-                        <div class="income1"></div>
-                      </li>
-                      <li>
-                        Race
-                        <div class="race1"></div>
-                      </li>
-                    </ul>
+                    <div id="panel#: mapNum#" class="centerDiv">
+                      <div class="minority1"></div>
+                      <div class="poverty1"></div>
+                      <div class="hispanic1"></div>
+                      <div class="income1"></div>
+                      <div class="race1"></div>
+                    </div>
                   </div>
               </div>
               <div>
                   <div>
                     <p>Environmental Justice Demographics 3 Mile Radius</p>
-                    <ul id="panel_2_#: mapNum#" class="panelBar">
-                      <li>
-                        Minority
+                    <div id="panel_2_#: mapNum#" class="centerDiv">
                         <div class="minority3"></div>
-                      </li>
-                      <li>
-                        Poverty
                         <div class="poverty3"></div>
-                      </li>
-                      <li>
-                        Hispanic
                         <div class="hispanic3"></div>
-                      </li>
-                      <li>
-                        Income
                         <div class="income3"></div>
-                      </li>
-                      <li>
-                        Race
                         <div class="race3"></div>
-                      </li>
-                    </ul>
+                    </div>
                   </div>
               </div>
           </div>
