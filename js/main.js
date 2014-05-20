@@ -45,7 +45,7 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
       }, "HomeButton");
       home.startup();
 
-  var iconPath = "M14.555,26.945C14.503,26.406,16.343,21.792,9.406,15c-1.5-1.469-4.302-3.906-4.302-6.577c0-4.154,4.431-7.521,9.896-7.521h-0.156c5.465,0,9.897,3.367,9.897,7.521c0,2.67-2.803,5.108-4.303,6.577c-6.938,6.792-5.098,11.406-5.15,11.945H14.555z M15.031,5.688c-2.882,0-5.219,1.063-5.219,2.375s2.336,2.375,5.219,2.375c2.882,0,5.219-1.063,5.219-2.375S17.913,5.688,15.031,5.688z";
+  var iconPath = "M14.597,29.445c-0.057-0.591,1.959-5.648-5.644-13.092c-1.644-1.61-4.715-4.281-4.715-7.208c0-4.553,4.856-8.243,10.846-8.243h-0.171c5.989,0,10.847,3.69,10.847,8.243c0,2.926-3.072,5.599-4.717,7.208c-7.603,7.443-5.587,12.501-5.644,13.092H14.597z";
 
   //add points, markers, and numbers to map, center & zoom
   map.on("load", function(){
@@ -70,15 +70,20 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
       s.setPath(iconPath);
       s.setColor(new dojo.Color("#2b83ba"));
       s.setOutline(null);
-      s.setSize(30);
+      s.setSize(40);
       var num = count + 1;
-      var font = new Font("20pt", Font.ALIGN_END, Font.STYLE_ITALIC, Font.VARIANT_NORMAL, Font.WEIGHT_BOLD,"Helvetica");
-      var t = new TextSymbol(num.toString()).setFont(font).setVerticalAlignment("bottom").setOffset(0, 10);
+      var font = new Font();
+      font.setSize("10pt");
+      font.setFamily("Helvetica");
+      font.setWeight("bold");
+      var t = new TextSymbol(num.toString()).setFont(font).setVerticalAlignment("bottom").setOffset(0, -3);
+      t.setColor(new dojo.Color("white"));
       var g = new Graphic(p, s);
       g.setInfoTemplate(popupTemplate);
       var textGraphic = new Graphic(p, t);
-      pointLayer.add(textGraphic);
+      textGraphic.setInfoTemplate(popupTemplate);
       pointLayer.add(g);
+      pointLayer.add(textGraphic);
       count++;
     }
 
@@ -93,12 +98,20 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
         evt.graphic.symbol.color.setColor(new dojo.Color("#d7191c"));
         pointLayer.redraw();
       }
+      else if(evt.graphic.symbol.type === "textsymbol"){
+          evt.target.previousSibling.e_graphic.symbol.color.setColor(new dojo.Color("#d7191c"));
+          pointLayer.redraw();
+      }
     });
 
     pointLayer.on("mouse-down", function(evt){
       if(evt.graphic.symbol.type != "textsymbol"){
         evt.graphic.symbol.color.setColor(new dojo.Color("#1A608D"));
         pointLayer.redraw();
+      }
+      else if(evt.graphic.symbol.type === "textsymbol"){
+          evt.target.previousSibling.e_graphic.symbol.color.setColor(new dojo.Color("#1A608D"));
+          pointLayer.redraw();
       }
     });
 
@@ -107,12 +120,20 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
         evt.graphic.symbol.color.setColor(new dojo.Color("#2b83ba"));
         pointLayer.redraw();
       }
+      else if(evt.graphic.symbol.type === "textsymbol"){
+          evt.target.previousSibling.e_graphic.symbol.color.setColor(new dojo.Color("#2b83ba"));
+          pointLayer.redraw();
+      }
     });
 
      pointLayer.on("mouse-up", function(evt){
       if(evt.graphic.symbol.type != "textsymbol"){
         evt.graphic.symbol.color.setColor(new dojo.Color("#2b83ba"));
         pointLayer.redraw();
+      }
+      else if(evt.graphic.symbol.type === "textsymbol"){
+          evt.target.previousSibling.e_graphic.symbol.color.setColor(new dojo.Color("#2b83ba"));
+          pointLayer.redraw();
       }
     });
     
@@ -298,6 +319,7 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
       buffer1SingleLayer.hide();
       buffer3Layer.hide();
       buffer3SingleLayer.hide();
+      map.infoWindow.hide();
     }
   });
 });
