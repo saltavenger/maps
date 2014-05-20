@@ -20,7 +20,6 @@ require([ "esri/map",
           "esri/symbols/SimpleFillSymbol",
           "esri/symbols/SimpleLineSymbol",
           "esri/symbols/SimpleMarkerSymbol",
-          "esri/symbols/PictureFillSymbol",
           "esri/symbols/Font",
           "esri/symbols/TextSymbol",
           "esri/graphic",
@@ -31,7 +30,7 @@ require([ "esri/map",
           "dojo/on",
           "dojo/query",
           "dojo/domReady!"
-        ], function(Map, SpatialReference, Popup, PopupTemplate, HomeButton, Geometry, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, PictureFillSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, domClass, domConstruct, on, query) { 
+        ], function(Map, SpatialReference, Popup, PopupTemplate, HomeButton, Geometry, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, domClass, domConstruct, on, query) { 
 
 var popup = Popup({highlight: false},domConstruct.create("div"));
 
@@ -339,9 +338,6 @@ $(document).ready(function(){
     pageable: true,
     detailTemplate: kendo.template($("#template").html()),
     detailInit: detailInit,
-    dataBound: function() {
-        this.expandRow(this.tbody.find("tr.k-master-row").first());
-    },
     columns: [
         {
           field: "mapNum",
