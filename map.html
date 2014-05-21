@@ -16,23 +16,25 @@
       <script src="js/main.js"></script>
     </head>
     <body class="claro">
-      <div id="mapWrap"class="clearfix">
-      	<div id="mapDiv">
-          <div id="HomeButton"></div>
+      <div id="pageWrap">
+        <div id="mapWrap"class="clearfix">
+        	<div id="mapDiv">
+            <div id="HomeButton"></div>
+          </div>
+          <div id="mapNav">
+            <ol id="markerList"></ol>
+          </div>
         </div>
-        <div id="mapNav">
-          <ol id="markerList"></ol>
+        <div id="legend">
+          <div id="legendControls">
+            <p class="bold">EJ 1 Mile: <a href="javascript:void(0);" class="buffer1">Buffer</a></p>
+            <p class="bold">EJ 3 Mile: <a href="javascript:void(0);" class="buffer3">Buffer</a></p>
+            <button id="hideLayers">Clear All</button>
+          </div>
+          <div id="legendInfo"></div>
         </div>
-      </div>
-      <div id="legend">
-        <div id="legendControls">
-          <p class="bold">EJ 1 Mile: <a href="javascript:void(0);" class="buffer1">Buffer</a></p>
-          <p class="bold">EJ 3 Mile: <a href="javascript:void(0);" class="buffer3">Buffer</a></p>
-          <button id="hideLayers">Clear All</button>
-        </div>
-        <div id="legendInfo"></div>
-      </div>
-      <div id="grid" class="clearBoth"></div>
+        <div id="grid" class="clearBoth"></div>
+      <div>
 
       <script type="text/x-kendo-template" id="template">
           <div class="tabstrip">
@@ -53,6 +55,30 @@
                       <div class="hispanic1"></div>
                       <div class="income1"></div>
                       <div class="race1"></div>
+                      <div class="buildLegend">
+                        <div><div class="boxColor1"></div>Other</div>
+                        <div><div class="boxColor2"></div>Minority</div>
+                      </div>
+                      <div class="buildLegend">
+                        <div><div class="boxColor1"></div>Other</div>
+                        <div><div class="boxColor2"></div>Poverty</div>
+                      </div>
+                      <div class="buildLegend">
+                        <div><div class="boxColor1"></div>Other</div>
+                        <div><div class="boxColor2"></div>Hispanic</div>
+                      </div>
+                      <div class="buildLegend">
+                        <div><div class="boxColor2"></div>Income1</div>
+                        <div><div class="boxColor3"></div>Income2</div>
+                        <div><div class="boxColor4"></div>Income3</div>
+                        <div><div class="boxColor5"></div>Income4</div>
+                      </div>
+                      <div class="buildLegend">
+                        <div><div class="boxColor2"></div>Hispanic</div>
+                        <div><div class="boxColor3"></div>White</div>
+                        <div><div class="boxColor4"></div>Black</div>
+                        <div><div class="boxColor5"></div>Asian</div>
+                      </div>
                     </div>
                   </div>
               </div>
@@ -60,11 +86,35 @@
                   <div>
                     <p>Environmental Justice Demographics 3 Mile Radius</p>
                     <div id="panel_2_#: mapNum#" class="centerDiv">
-                        <div class="minority3"></div>
-                        <div class="poverty3"></div>
-                        <div class="hispanic3"></div>
-                        <div class="income3"></div>
-                        <div class="race3"></div>
+                      <div class="minority3"></div>
+                      <div class="poverty3"></div>
+                      <div class="hispanic3"></div>
+                      <div class="income3"></div>
+                      <div class="race3"></div>
+                      <div class="buildLegend">
+                      <div><div class="boxColor1"></div>Other</div>
+                        <div><div class="boxColor2"></div>Minority</div>
+                      </div>
+                      <div class="buildLegend">
+                        <div><div class="boxColor1"></div>Other</div>
+                        <div><div class="boxColor2"></div>Poverty</div>
+                      </div>
+                      <div class="buildLegend">
+                        <div><div class="boxColor1"></div>Other</div>
+                        <div><div class="boxColor2"></div>Hispanic</div>
+                      </div>
+                      <div class="buildLegend">
+                        <div><div class="boxColor2"></div>Income1</div>
+                        <div><div class="boxColor3"></div>Income2</div>
+                        <div><div class="boxColor4"></div>Income3</div>
+                        <div><div class="boxColor5"></div>Income4</div>
+                      </div>
+                      <div class="buildLegend">
+                        <div><div class="boxColor2"></div>Hispanic</div>
+                        <div><div class="boxColor3"></div>White</div>
+                        <div><div class="boxColor4"></div>Black</div>
+                        <div><div class="boxColor5"></div>Asian</div>
+                      </div>
                     </div>
                   </div>
               </div>

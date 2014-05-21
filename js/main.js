@@ -426,13 +426,21 @@ function createPie(id, className, data, title){
     series: [{
       colorField: "valueColor",
       type: "pie",
-      data: data
+      data: data,
+      padding: 0,
+      margin: 0
     }],
+    chartArea:{
+      height: 200
+    },
     title: {
-      text: title
+      text: title,
+      margin: {
+        bottom: 0
+      }
     },
     legend:{
-      position: "top"
+      visible: false
     },
     tooltip: {
       visible: true,

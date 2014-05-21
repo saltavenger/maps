@@ -1,8 +1,16 @@
 body{
 	color: #4f4a4a;
-	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+	font-family: "Helvetica", sans-serif; 
     font-weight: 300;
     background: #FBFAF8;
+    font-size: 10pt;
+}
+#pageWrap{
+	width: 1080px;
+	margin: 0 auto;
+}
+#grid{
+	width: 960px;
 }
 #mapDiv, #mapNav, #legendControls, #legendInfo{
 	float: left;
@@ -10,18 +18,20 @@ body{
 #HomeButton {
       position: absolute;
       top: 95px;
-      left: 30px;
+      left: 20px;
       z-index: 50;
     }
 #mapDiv{
-	width: 69%;
+	width: 700px;
+	position: relative;
 }
 #mapWrap{
 	border: 2px solid #1A608D;
 	border-radius: 4px;
+	width: 960px;
 }
 #mapNav{
-	width: 30%;
+	width: 260px;
 	clear: right;
 }
 #legend{
@@ -60,11 +70,35 @@ body{
 	margin: 0 auto;
 	text-align: center;
 }
-.minority1, .race1, .poverty1, .hispanic1, .income1, .minority3, .race3, .poverty3, .hispanic3, .income3{
+.minority1, .race1, .poverty1, .hispanic1, .income1, .minority3, .race3, .poverty3, .hispanic3, .income3, .buildLegend{
 	display: inline-block;
-	width: 300px;
+	width: 150px;
 }
-
+.buildLegend{
+	text-align: left;
+}
+.boxColor1, .boxColor2, .boxColor3, .boxColor4, .boxColor5{
+	width: 15px;
+	height: 15px;
+	border-radius: 4px;
+	float: left;
+	margin: 0px 5px 0px 25px;
+}
+.boxColor1{
+	background-color: #000;
+}
+.boxColor2{
+	background-color: #d7191c;
+}
+.boxColor3{
+	background-color: #fdae61;
+}
+.boxColor4{
+	background-color: #abdda4;
+}
+.boxColor5{
+	background-color: #2b83ba;
+}
 ol li{
 	font-weight: bold;
 }
