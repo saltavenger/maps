@@ -16,11 +16,17 @@ body{
 	float: left;
 }
 #HomeButton {
-      position: absolute;
-      top: 95px;
-      left: 20px;
-      z-index: 50;
-    }
+  position: absolute;
+  top: 95px;
+  left: 20px;
+  z-index: 50;
+}
+#BasemapToggle {
+  position: absolute;
+  top: 20px;
+  left: 610px;
+  z-index: 50;
+}
 #mapDiv{
 	width: 700px;
 	position: relative;
@@ -70,9 +76,17 @@ body{
 	margin: 0 auto;
 	text-align: center;
 }
-.minority1, .race1, .poverty1, .hispanic1, .income1, .minority3, .race3, .poverty3, .hispanic3, .income3, .buildLegend{
+/*.minority1, .race1, .poverty1, .hispanic1, .income1, .minority3, .race3, .poverty3, .hispanic3, .income3, .buildLegend{
 	display: inline-block;
 	width: 150px;
+}*/
+.minority1Link, .race1Link, .poverty1Link, .hispanic1Link, .income1Link, .minority3Link, .race3Link, .poverty3Link, .hispanic3Link, .income3Link{
+	margin-left: 3px;
+	display: inline-block;
+}
+
+#demographicChart, .markerNum{
+	display: none;
 }
 .buildLegend{
 	text-align: left;
@@ -110,4 +124,8 @@ a{
 
 a:hover, a:focus{
 	color: #1A608D;
+}
+
+.esriPopup .contentPane{
+	max-height: 200px !important;
 }

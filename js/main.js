@@ -12,6 +12,7 @@ require([ "esri/map",
           "esri/dijit/Popup",
           "esri/dijit/PopupTemplate",
           "esri/dijit/HomeButton",
+          "esri/dijit/BasemapToggle",
           "esri/geometry",
           "esri/geometry/Point",
           "esri/geometry/Multipoint",
@@ -30,7 +31,7 @@ require([ "esri/map",
           "dojo/on",
           "dojo/query",
           "dojo/domReady!"
-        ], function(Map, SpatialReference, Popup, PopupTemplate, HomeButton, Geometry, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, domClass, domConstruct, on, query) { 
+        ], function(Map, SpatialReference, Popup, PopupTemplate, HomeButton, BasemapToggle, Geometry, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, domClass, domConstruct, on, query) { 
 
 var popup = Popup({highlight: false},domConstruct.create("div"));
 
@@ -40,9 +41,16 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
   });
 
   var home = new HomeButton({
-        map: map
-      }, "HomeButton");
-      home.startup();
+    map: map
+  }, "HomeButton");
+  home.startup();
+
+
+  var toggle = new BasemapToggle({
+    map: map,
+    basemap: "satellite"
+  }, "BasemapToggle");
+  toggle.startup();
 
   var iconPath = "M14.597,29.445c-0.057-0.591,1.959-5.648-5.644-13.092c-1.644-1.61-4.715-4.281-4.715-7.208c0-4.553,4.856-8.243,10.846-8.243h-0.171c5.989,0,10.847,3.69,10.847,8.243c0,2.926-3.072,5.599-4.717,7.208c-7.603,7.443-5.587,12.501-5.644,13.092H14.597z";
 
@@ -61,6 +69,8 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
       html += "<p>" + markers[count].address + "</p>";
       html += "<p>TRI ID= " + markers[count].triID + "</p>";
       html += "<p>" + markers[count].latLonHtml + "</p>";
+      html += "<div id='demographicChart'></div>";
+      html += "<div id='markerNum' data-number='" + count + "'></div>";
       var popupTemplate = new esri.dijit.PopupTemplate();
       popupTemplate.setContent(html);
       var p = new Point(lon, lat);
@@ -68,8 +78,8 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
       var s = new SimpleMarkerSymbol();
       s.setPath(iconPath);
       s.setColor(new dojo.Color("#2b83ba"));
-      s.setOutline(null);
       s.setSize(40);
+      s.outline.color = new dojo.Color("#1A608D");
       var num = count + 1;
       var font = new Font();
       font.setSize("10pt");
@@ -155,6 +165,8 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
     html += "<p>" + markers[num].address + "</p>";
     html += "<p>TRI ID= " + markers[num].triID + "</p>";
     html += "<p>" + markers[num].latLonHtml + "</p>";
+    html += "<div id='demographicChart'></div>";
+    html += "<div id='markerNum' data-number='" + num + "'></div>";
     map.infoWindow.setTitle("");
     map.infoWindow.setContent(html);
     map.infoWindow.show(p);
@@ -165,8 +177,29 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
   domConstruct.create("p", { "id": "ejMile3", "class": "bold", "innerHTML": "EJ Mile 3: "}, query(".actionList", window.map.infoWindow.domNode)[0]);
   var buffer1Link = domConstruct.create("a", { "class": "buffer1Single", "innerHTML": "Demographics", "href": "javascript:void(0);"}, query("#ejMile1", window.map.infoWindow.domNode)[0]);
   var buffer3Link = domConstruct.create("a", { "class": "buffer3Single", "innerHTML": "Demographics", "href": "javascript:void(0);"}, query("#ejMile3", window.map.infoWindow.domNode)[0]);
+  var minority1Link = domConstruct.create("a", { "class": "minority1Link", "innerHTML": "Minority", "href": "javascript:void(0);"}, query("#ejMile1", window.map.infoWindow.domNode)[0]);
+  var minority3Link = domConstruct.create("a", { "class": "minority3Link", "innerHTML": "Minority", "href": "javascript:void(0);"}, query("#ejMile3", window.map.infoWindow.domNode)[0]);
+  var poverty1Link = domConstruct.create("a", { "class": "poverty1Link", "innerHTML": "Poverty", "href": "javascript:void(0);"}, query("#ejMile1", window.map.infoWindow.domNode)[0]);
+  var poverty3Link = domConstruct.create("a", { "class": "poverty3Link", "innerHTML": "Poverty", "href": "javascript:void(0);"}, query("#ejMile3", window.map.infoWindow.domNode)[0]);
+  var hispanic1Link = domConstruct.create("a", { "class": "hispanic1Link", "innerHTML": "Hispanic", "href": "javascript:void(0);"}, query("#ejMile1", window.map.infoWindow.domNode)[0]);
+  var hispanic3Link = domConstruct.create("a", { "class": "hispanic3Link", "innerHTML": "Hispanic", "href": "javascript:void(0);"}, query("#ejMile3", window.map.infoWindow.domNode)[0]);
+  var income1Link = domConstruct.create("a", { "class": "income1Link", "innerHTML": "Income", "href": "javascript:void(0);"}, query("#ejMile1", window.map.infoWindow.domNode)[0]);
+  var income3Link = domConstruct.create("a", { "class": "income3Link", "innerHTML": "Income", "href": "javascript:void(0);"}, query("#ejMile3", window.map.infoWindow.domNode)[0]);
+  var race1Link = domConstruct.create("a", { "class": "race1Link", "innerHTML": "Race", "href": "javascript:void(0);"}, query("#ejMile1", window.map.infoWindow.domNode)[0]);
+  var race3Link = domConstruct.create("a", { "class": "race3Link", "innerHTML": "Race", "href": "javascript:void(0);"}, query("#ejMile3", window.map.infoWindow.domNode)[0]);
+  
   query('.buffer1Single').on("click", buffer1Single);
   query('.buffer3Single').on("click", buffer3Single);
+  query('.minority1Link').on("click", minority1);
+  query('.minority3Link').on("click", minority3);
+  query('.poverty1Link').on("click", poverty1);
+  query('.poverty3Link').on("click", poverty3);
+  query('.hispanic1Link').on("click", hispanic1);
+  query('.hispanic3Link').on("click", hispanic3);
+  query('.income1Link').on("click", income1);
+  query('.income3Link').on("click", income3);
+  query('.race1Link').on("click", race1);
+  query('.race3Link').on("click", race3);
 
 
   $('.buffer1').click(function(){
@@ -336,8 +369,8 @@ $(document).ready(function(){
     dataSource: data,
     sortable: true,
     pageable: true,
-    detailTemplate: kendo.template($("#template").html()),
-    detailInit: detailInit,
+    /*detailTemplate: kendo.template($("#template").html()),
+    detailInit: detailInit,*/
     columns: [
         {
           field: "mapNum",
@@ -380,7 +413,7 @@ $(document).ready(function(){
 
 });
 
-function detailInit(e) {
+/*function detailInit(e) {
     var detailRow = e.detailRow;
 
     detailRow.find(".tabstrip").kendoTabStrip({
@@ -419,10 +452,100 @@ function detailInit(e) {
       createPie("panel_2_" + panelNum, "income3", incomeData3, "Income");
       createPie("panel_2_" + panelNum, "race3", raceData3, "Race");
     }
+}*/
+
+function minority1(){
+  var item = $('#markerNum').data('number');
+  var string1 = markers[item].ej1;
+  var allData1 = string1.split(",");
+  var minorityData1 = [{ category: "Minority", value: allData1[0] }, {category: "Other", value: 1-allData1[0], valueColor: "#000"}];
+  $('#demographicChart').show();
+  createPie(minorityData1, "Percent Minority 1 Mile");
 }
 
-function createPie(id, className, data, title){
-  $("#" + id + " ." + className).kendoChart({
+function minority3(){
+  var item = $('#markerNum').data('number');
+  var string3 = markers[item].ej3;
+  var allData3 = string3.split(",");
+  var minorityData3 = [{ category: "Minority", value: allData3[0] }, {category: "Other", value: 1-allData3[0], valueColor: "#000"}];
+  $('#demographicChart').show();
+  createPie(minorityData3, "Percent Minority 3 Mile");
+}
+
+function poverty1(){
+  var item = $('#markerNum').data('number');
+  var string1 = markers[item].ej1;
+  var allData1 = string1.split(",");
+  var povertyData1 = [{ category: "Poverty", value: allData1[1] }, {category: "Other", value: 1-allData1[1], valueColor: "#000"}];
+  $('#demographicChart').show();
+  createPie(povertyData1, "Poverty 1 Mile");
+}
+
+function poverty3(){
+  var item = $('#markerNum').data('number');
+  var string3 = markers[item].ej3;
+  var allData3 = string3.split(",");
+  var povertyData3 = [{ category: "Poverty", value: allData3[1] }, {category: "Other", value: 1-allData3[1], valueColor: "#000"}];
+  $('#demographicChart').show();
+  createPie(povertyData3, "Poverty 3 Mile");
+}
+
+function hispanic1(){
+  var item = $('#markerNum').data('number');
+  var string1 = markers[item].ej1;
+  var allData1 = string1.split(",");
+  var hispanicData1 = [{ category: "Hispanic", value: allData1[2] }, {category: "Other", value: 1-allData1[2], valueColor: "#000"}];
+  $('#demographicChart').show();
+  createPie(hispanicData1, "Hispanic Population 1 Mile");
+}
+
+function hispanic3(){
+  var item = $('#markerNum').data('number');
+  var string3 = markers[item].ej3;
+  var allData3 = string3.split(",");
+  var hispanicData3 = [{ category: "Hispanic", value: allData3[2] }, {category: "Other", value: 1-allData3[2], valueColor: "#000"}];
+  $('#demographicChart').show();
+  createPie(hispanicData3, "Hispanic Population 3 Mile");
+}
+
+function income1(){
+  var item = $('#markerNum').data('number');
+  var string1 = markers[item].ej1;
+  var allData1 = string1.split(",");
+  var incomeData1 = [{ category: "Income1", value: allData1[6] },{ category: "Income2", value: allData1[7] }, { category: "Income3", value: allData1[8] }, { category: "Income4", value: allData1[9] } ];
+  $('#demographicChart').show();
+  createPie(incomeData1, "Income Data 1 Mile");
+}
+
+function income3(){
+  var item = $('#markerNum').data('number');
+  var string3 = markers[item].ej3;
+  var allData3 = string3.split(",");
+  var incomeData3 = [{ category: "Income1", value: allData3[6] },{ category: "Income2", value: allData3[7] }, { category: "Income3", value: allData3[8] }, { category: "Income4", value: allData3[9] } ];
+  $('#demographicChart').show();
+  createPie(incomeData3, "Income Data 3 mile");
+}
+
+function race1(){
+  var item = $('#markerNum').data('number');
+  var string1 = markers[item].ej1;
+  var allData1 = string1.split(",");
+  var raceData1 = [{ category: "Hispanic", value: allData1[2] },{ category: "White", value: allData1[3] }, { category: "Black", value: allData1[4] }, { category: "Asian", value: allData1[5] } ];
+  $('#demographicChart').show();
+  createPie(raceData1, "Race 1 Mile");
+}
+
+function race3(){
+  var item = $('#markerNum').data('number');
+  var string3 = markers[item].ej3;
+  var allData3 = string3.split(",");
+  var raceData3 = [{ category: "Hispanic", value: allData3[2] },{ category: "White", value: allData3[3] }, { category: "Black", value: allData3[4] }, { category: "Asian", value: allData3[5] } ];
+  $('#demographicChart').show();
+  createPie(raceData3, "Race 3 Mile");
+}
+
+function createPie(data, title){ 
+  $("#demographicChart").kendoChart({
     series: [{
       colorField: "valueColor",
       type: "pie",
@@ -431,16 +554,19 @@ function createPie(id, className, data, title){
       margin: 0
     }],
     chartArea:{
-      height: 200
+      background: "#F7F7F7",
+      height: 200,
+      width: 230
     },
     title: {
       text: title,
+      color: "#666666",
       margin: {
         bottom: 0
       }
     },
     legend:{
-      visible: false
+      position: "top"
     },
     tooltip: {
       visible: true,
