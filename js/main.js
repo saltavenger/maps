@@ -554,9 +554,16 @@ function createPie(data, title){
       margin: 0
     }],
     chartArea:{
-      background: "#F7F7F7",
-      height: 200,
-      width: 230
+      background: "#F7F7F7"
+    },
+    seriesDefaults: {
+      labels: {
+        template: "#= kendo.format('{0:P}', percentage)#",
+        position: "center",
+        visible: false,
+        background: "transparent",
+        color: '#ffffff'
+      }
     },
     title: {
       text: title,
@@ -570,7 +577,7 @@ function createPie(data, title){
     },
     tooltip: {
       visible: true,
-      template: "#= category # - #= kendo.format('{0:P}', percentage) #"
+      template: "#= kendo.format('{0:P}', percentage)#"
     },
     seriesColors: ["#d7191c", "#fdae61", "#abdda4", "#2b83ba"]
   });

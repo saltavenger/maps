@@ -88,6 +88,12 @@ body{
 #demographicChart, .markerNum{
 	display: none;
 }
+
+#demographicChart{
+	height: 200px;
+	width: 220px;
+}
+
 .buildLegend{
 	text-align: left;
 }
@@ -129,3 +135,5 @@ a:hover, a:focus{
 .esriPopup .contentPane{
 	max-height: 200px !important;
 }
+
+.k-tooltip { margin-left: -10px; }
