@@ -48,7 +48,7 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
 
   var toggle = new BasemapToggle({
     map: map,
-    basemap: "satellite"
+    basemap: "hybrid"
   }, "BasemapToggle");
   toggle.startup();
 
@@ -369,8 +369,8 @@ $(document).ready(function(){
     dataSource: data,
     sortable: true,
     pageable: true,
-    /*detailTemplate: kendo.template($("#template").html()),
-    detailInit: detailInit,*/
+    detailTemplate: kendo.template($("#template").html()),
+    detailInit: detailInit,
     columns: [
         {
           field: "mapNum",
@@ -413,7 +413,7 @@ $(document).ready(function(){
 
 });
 
-/*function detailInit(e) {
+function detailInit(e) {
     var detailRow = e.detailRow;
 
     detailRow.find(".tabstrip").kendoTabStrip({
@@ -432,11 +432,11 @@ $(document).ready(function(){
       var raceData1 = [{ category: "Hispanic", value: allData1[2] },{ category: "White", value: allData1[3] }, { category: "Black", value: allData1[4] }, { category: "Asian", value: allData1[5] } ];
 
       var panelNum = parseInt(i) + 1;
-      createPie("panel" + panelNum, "minority1", minorityData1, "Percent Minority");
-      createPie("panel" + panelNum, "poverty1", povertyData1, "Poverty");
-      createPie("panel" + panelNum, "hispanic1", hispanicData1, "Hispanic Population");
-      createPie("panel" + panelNum, "income1", incomeData1, "Income Data");
-      createPie("panel" + panelNum, "race1", raceData1, "Race");
+      createPie2("panel" + panelNum, "minority1", minorityData1, "Percent Minority");
+      createPie2("panel" + panelNum, "poverty1", povertyData1, "Poverty");
+      createPie2("panel" + panelNum, "hispanic1", hispanicData1, "Hispanic Population");
+      createPie2("panel" + panelNum, "income1", incomeData1, "Income Data");
+      createPie2("panel" + panelNum, "race1", raceData1, "Race");
 
       var string3 = markers[i].ej3;
       var allData3 = string1.split(",");
@@ -446,13 +446,13 @@ $(document).ready(function(){
       var incomeData3 = [{ category: "Income1", value: allData3[6] },{ category: "Income2", value: allData3[7] }, { category: "Income3", value: allData3[8] }, { category: "Income4", value: allData3[9] } ];
       var raceData3 = [{ category: "Hispanic", value: allData3[2] },{ category: "White", value: allData3[3] }, { category: "Black", value: allData3[4] }, { category: "Asian", value: allData3[5] } ];
 
-      createPie("panel_2_" + panelNum, "minority3", minorityData3, "Percent Minority");
-      createPie("panel_2_" + panelNum, "poverty3", povertyData3, "Poverty");
-      createPie("panel_2_" + panelNum, "hispanic3", hispanicData3, "Hispanic Population");
-      createPie("panel_2_" + panelNum, "income3", incomeData3, "Income");
-      createPie("panel_2_" + panelNum, "race3", raceData3, "Race");
+      createPie2("panel_2_" + panelNum, "minority3", minorityData3, "Percent Minority");
+      createPie2("panel_2_" + panelNum, "poverty3", povertyData3, "Poverty");
+      createPie2("panel_2_" + panelNum, "hispanic3", hispanicData3, "Hispanic Population");
+      createPie2("panel_2_" + panelNum, "income3", incomeData3, "Income");
+      createPie2("panel_2_" + panelNum, "race3", raceData3, "Race");
     }
-}*/
+}
 
 function minority1(){
   var item = $('#markerNum').data('number');
@@ -515,6 +515,11 @@ function income1(){
   var incomeData1 = [{ category: "Income1", value: allData1[6] },{ category: "Income2", value: allData1[7] }, { category: "Income3", value: allData1[8] }, { category: "Income4", value: allData1[9] } ];
   $('#demographicChart').show();
   createPie(incomeData1, "Income Data 1 Mile");
+  var target = $('#demographicChart');
+  $('.contentPane').animate({
+    scrollTop: target.offset().top
+  }, 1000);
+  return false;
 }
 
 function income3(){
@@ -524,6 +529,7 @@ function income3(){
   var incomeData3 = [{ category: "Income1", value: allData3[6] },{ category: "Income2", value: allData3[7] }, { category: "Income3", value: allData3[8] }, { category: "Income4", value: allData3[9] } ];
   $('#demographicChart').show();
   createPie(incomeData3, "Income Data 3 mile");
+  location.hash = "#demographicChart";
 }
 
 function race1(){
@@ -533,6 +539,7 @@ function race1(){
   var raceData1 = [{ category: "Hispanic", value: allData1[2] },{ category: "White", value: allData1[3] }, { category: "Black", value: allData1[4] }, { category: "Asian", value: allData1[5] } ];
   $('#demographicChart').show();
   createPie(raceData1, "Race 1 Mile");
+  location.hash = "#demographicChart";
 }
 
 function race3(){
@@ -542,6 +549,7 @@ function race3(){
   var raceData3 = [{ category: "Hispanic", value: allData3[2] },{ category: "White", value: allData3[3] }, { category: "Black", value: allData3[4] }, { category: "Asian", value: allData3[5] } ];
   $('#demographicChart').show();
   createPie(raceData3, "Race 3 Mile");
+  location.hash = "#demographicChart";
 }
 
 function createPie(data, title){ 
@@ -578,6 +586,42 @@ function createPie(data, title){
     tooltip: {
       visible: true,
       template: "#= kendo.format('{0:P}', percentage)#"
+    },
+    seriesColors: ["#d7191c", "#fdae61", "#abdda4", "#2b83ba"]
+  });
+
+  //scrolls popup down to chart
+  var target = $('#demographicChart');
+  $('.contentPane').animate({
+    scrollTop: target.offset().top
+  }, 1000);
+  return false;
+}
+
+function createPie2(id, className, data, title){
+  $("#" + id + " ." + className).kendoChart({
+    series: [{
+      colorField: "valueColor",
+      type: "pie",
+      data: data,
+      padding: 0,
+      margin: 0
+    }],
+    chartArea:{
+      height: 200
+    },
+    title: {
+      text: title,
+      margin: {
+        bottom: 0
+      }
+    },
+    legend:{
+      visible: false
+    },
+    tooltip: {
+      visible: true,
+      template: "#= category # - #= kendo.format('{0:P}', percentage) #"
     },
     seriesColors: ["#d7191c", "#fdae61", "#abdda4", "#2b83ba"]
   });
