@@ -6,8 +6,11 @@ var markers = [
 { lat:'33.138611', lon:'-91.966667', nameLink:'<a href="http://oaspub.epa.gov/enviro/tris_control.tris_print?tris_id=71635GRGPCPAPER" target=_blank>GEORGIA-PACIFIC CROSSETT PLYWOOD/STUDMI LL COMPLEX</a>', address: '101 PLYWOOD MILL RD, CROSSETT ARKANSAS 71635 (ASHLEY), CROSSETT, AR 71635', triID: '71635GRGPCPAPER', latLonHtml: 'Latitude <span class="lat">33.138611</span>&nbsp; Longitude <span class="lon">-91.966667</span>', label:'GEORGIA-PACIFIC CROSSETT PLYWOOD/STUDMI LL COMPLEX', ej1:'0.693,0.284,0.014,0.308,0.672,0.004,0.413,0.094,0.250,0.133', ej3:'0.383,0.176,0.017,0.623,0.359,0.004,0.255,0.129,0.329,0.167' }
 ];
 
+var fullscreen;
+
 var map;
 require([ "esri/map",
+          "application/FullScreenMap",
           "esri/SpatialReference",
           "esri/dijit/Popup",
           "esri/dijit/PopupTemplate",
@@ -31,7 +34,7 @@ require([ "esri/map",
           "dojo/on",
           "dojo/query",
           "dojo/domReady!"
-        ], function(Map, SpatialReference, Popup, PopupTemplate, HomeButton, BasemapToggle, Geometry, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, domClass, domConstruct, on, query) { 
+        ], function(Map, FullScreenMap, SpatialReference, Popup, PopupTemplate, HomeButton, BasemapToggle, Geometry, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, domClass, domConstruct, on, query) { 
 
 var popup = Popup({highlight: false},domConstruct.create("div"));
 
@@ -40,10 +43,17 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
     infoWindow: popup
   });
 
-  var home = new HomeButton({
+  fullscreen = new FullScreenMap({
+      map: map
+  }, "fullscreen");
+  fullscreen.startup();
+
+  var prevView = fullscreen.fullscreen;
+
+  var homeButton = new HomeButton({
     map: map
   }, "HomeButton");
-  home.startup();
+  homeButton.startup();
 
 
   var toggle = new BasemapToggle({
@@ -53,6 +63,7 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
   toggle.startup();
 
   var iconPath = "M14.597,29.445c-0.057-0.591,1.959-5.648-5.644-13.092c-1.644-1.61-4.715-4.281-4.715-7.208c0-4.553,4.856-8.243,10.846-8.243h-0.171c5.989,0,10.847,3.69,10.847,8.243c0,2.926-3.072,5.599-4.717,7.208c-7.603,7.443-5.587,12.501-5.644,13.092H14.597z";
+
 
   //add points, markers, and numbers to map, center & zoom
   map.on("load", function(){
@@ -98,7 +109,7 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
 
     var setMap = latLonArray.getExtent();
     map.setExtent(setMap.expand(2));
-    home.extent = setMap.expand(2);
+    homeButton.extent = setMap.expand(2);
     map.addLayer(pointLayer);
 
     //hover & click color for markers
@@ -353,8 +364,21 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
       buffer3SingleLayer.hide();
       map.infoWindow.hide();
     }
+
   });
+
+  //whenever graphics reload
+  map.on("update-end", function(){
+    //check whether or not we are in fullscreen view, if it is different from the previous view, recenter and update previous view
+    if(fullscreen.fullscreen != prevView){
+      homeButton.home();
+      prevView = fullscreen.fullscreen;
+    }
+  });
+
 });
+
+
 
 
 $(document).ready(function(){
