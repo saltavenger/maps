@@ -15,7 +15,7 @@ require([ "esri/map",
           "esri/dijit/Popup",
           "esri/dijit/PopupTemplate",
           "esri/dijit/HomeButton",
-          "esri/dijit/BasemapToggle",
+          "esri/dijit/BasemapGallery",
           "esri/geometry",
           "esri/geometry/Point",
           "esri/geometry/Multipoint",
@@ -34,9 +34,9 @@ require([ "esri/map",
           "dojo/on",
           "dojo/query",
           "dojo/domReady!"
-        ], function(Map, FullScreenMap, SpatialReference, Popup, PopupTemplate, HomeButton, BasemapToggle, Geometry, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, domClass, domConstruct, on, query) { 
+        ], function(Map, FullScreenMap, SpatialReference, Popup, PopupTemplate, HomeButton, BasemapGallery, Geometry, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, domClass, domConstruct, on, query) { 
 
-var popup = Popup({highlight: false},domConstruct.create("div"));
+  var popup = Popup({highlight: false},domConstruct.create("div"));
 
   map = new Map("mapDiv", {
     basemap: "osm",
@@ -48,19 +48,54 @@ var popup = Popup({highlight: false},domConstruct.create("div"));
   }, "fullscreen");
   fullscreen.startup();
 
+  var basemaps = [];
+
+  var satLayer = new esri.dijit.BasemapLayer({
+    url:"http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"
+  });
+  var boundaryLayer = new esri.dijit.BasemapLayer({
+    url:"http://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer"
+  });
+  var transLayer = new esri.dijit.BasemapLayer({
+    url:"http://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"
+  });
+  
+  var satelliteBasemap = new esri.dijit.Basemap({
+    layers      :[satLayer, boundaryLayer, transLayer],
+    title       :"Satellite View",
+    thumbnailUrl:"http://www.arcgis.com/sharing/rest/content/items/d802f08316e84c6592ef681c50178f17/info/thumbnail/Imagery_Labels_Trans.jpg"
+  });
+
+  var osmLayer = new esri.dijit.BasemapLayer({
+    type: "OpenStreetMap"
+  });
+
+  var osmBasemap = new esri.dijit.Basemap({
+    layers      :[osmLayer],
+    title       :"Original View",
+    thumbnailUrl:"http://www.arcgis.com/sharing/rest/content/items/b834a68d7a484c5fb473d4ba90d35e71/info/thumbnail/osm.jpg"
+  });
+
+  basemaps.push(satelliteBasemap, osmBasemap);
+
+  //add the basemap gallery, in this case we'll display maps from ArcGIS.com including bing maps
+  var basemapGallery = new BasemapGallery({
+    showArcGISBasemaps: false,
+    basemaps: basemaps,
+    map: map
+  }, "basemapGallery");
+  basemapGallery.startup();
+  
+  basemapGallery.on("error", function(msg) {
+    console.log("basemap gallery error:  ", msg);
+  });
+
   var prevView = fullscreen.fullscreen;
 
   var homeButton = new HomeButton({
     map: map
   }, "HomeButton");
   homeButton.startup();
-
-
-  var toggle = new BasemapToggle({
-    map: map,
-    basemap: "hybrid"
-  }, "BasemapToggle");
-  toggle.startup();
 
   var iconPath = "M14.597,29.445c-0.057-0.591,1.959-5.648-5.644-13.092c-1.644-1.61-4.715-4.281-4.715-7.208c0-4.553,4.856-8.243,10.846-8.243h-0.171c5.989,0,10.847,3.69,10.847,8.243c0,2.926-3.072,5.599-4.717,7.208c-7.603,7.443-5.587,12.501-5.644,13.092H14.597z";
 
@@ -449,10 +484,11 @@ function detailInit(e) {
     for(i in markers){
       var string1 = markers[i].ej1;
       var allData1 = string1.split(",");
+      var income5_1 = 1-(parseInt(allData1[6])+parseInt(allData1[7])+parseInt(allData1[8])+parseInt(allData1[9]));
       var minorityData1 = [{ category: "Minority", value: allData1[0] }, {category: "Other", value: 1-allData1[0], valueColor: "#000"}];
       var povertyData1 = [{ category: "Poverty", value: allData1[1] }, {category: "Other", value: 1-allData1[1], valueColor: "#000"}];
       var hispanicData1 = [{ category: "Hispanic", value: allData1[2] }, {category: "Other", value: 1-allData1[2], valueColor: "#000"}];
-      var incomeData1 = [{ category: "Income1", value: allData1[6] },{ category: "Income2", value: allData1[7] }, { category: "Income3", value: allData1[8] }, { category: "Income4", value: allData1[9] } ];
+      var incomeData1 = [{ category: "Income1", value: allData1[6] },{ category: "Income2", value: allData1[7] }, { category: "Income3", value: allData1[8] }, { category: "Income4", value: allData1[9] }, { category: "Income5", value: income5_1 } ];
       var raceData1 = [{ category: "Hispanic", value: allData1[2] },{ category: "White", value: allData1[3] }, { category: "Black", value: allData1[4] }, { category: "Asian", value: allData1[5] } ];
 
       var panelNum = parseInt(i) + 1;
@@ -463,11 +499,12 @@ function detailInit(e) {
       createPie2("panel" + panelNum, "race1", raceData1, "Race");
 
       var string3 = markers[i].ej3;
-      var allData3 = string1.split(",");
+      var allData3 = string3.split(",");
+      var income5_3 = 1-(parseInt(allData3[6])+parseInt(allData3[7])+parseInt(allData3[8])+parseInt(allData3[9]));
       var minorityData3 = [{ category: "Minority", value: allData3[0] }, {category: "Other", value: 1-allData3[0], valueColor: "#000"}];
       var povertyData3 = [{ category: "Poverty", value: allData3[1] }, {category: "Other", value: 1-allData3[1], valueColor: "#000"}];
       var hispanicData3 = [{ category: "Hispanic", value: allData3[2] }, {category: "Other", value: 1-allData3[2], valueColor: "#000"}];
-      var incomeData3 = [{ category: "Income1", value: allData3[6] },{ category: "Income2", value: allData3[7] }, { category: "Income3", value: allData3[8] }, { category: "Income4", value: allData3[9] } ];
+      var incomeData3 = [{ category: "Income1", value: allData3[6] },{ category: "Income2", value: allData3[7] }, { category: "Income3", value: allData3[8] }, { category: "Income4", value: allData3[9] }, { category: "Income5", value: income5_3 } ];
       var raceData3 = [{ category: "Hispanic", value: allData3[2] },{ category: "White", value: allData3[3] }, { category: "Black", value: allData3[4] }, { category: "Asian", value: allData3[5] } ];
 
       createPie2("panel_2_" + panelNum, "minority3", minorityData3, "Percent Minority");
@@ -536,7 +573,8 @@ function income1(){
   var item = $('#markerNum').data('number');
   var string1 = markers[item].ej1;
   var allData1 = string1.split(",");
-  var incomeData1 = [{ category: "Income1", value: allData1[6] },{ category: "Income2", value: allData1[7] }, { category: "Income3", value: allData1[8] }, { category: "Income4", value: allData1[9] } ];
+  var income5_1 = 1-(parseInt(allData1[6])+parseInt(allData1[7])+parseInt(allData1[8])+parseInt(allData1[9]));
+  var incomeData1 = [{ category: "< $15k", value: allData1[6] },{ category: "$15k-$25k", value: allData1[7] }, { category: "$25k-$50k", value: allData1[8] }, { category: "$50-75k", value: allData1[9] }, { category: "> $75k", value: income5_1 } ];
   $('#demographicChart').show();
   createPie(incomeData1, "Income Data 1 Mile");
   var target = $('#demographicChart');
@@ -550,7 +588,8 @@ function income3(){
   var item = $('#markerNum').data('number');
   var string3 = markers[item].ej3;
   var allData3 = string3.split(",");
-  var incomeData3 = [{ category: "Income1", value: allData3[6] },{ category: "Income2", value: allData3[7] }, { category: "Income3", value: allData3[8] }, { category: "Income4", value: allData3[9] } ];
+  var income5_3 = 1-(parseInt(allData3[6])+parseInt(allData3[7])+parseInt(allData3[8])+parseInt(allData3[9]));
+  var incomeData3 = [{ category: "< $15k", value: allData3[6] },{ category: "$15k-$25k", value: allData3[7] }, { category: "$25k-$50k", value: allData3[8] }, { category: "$50k-$75k", value: allData3[9] }, { category: "> $75k", value: income5_3 } ];
   $('#demographicChart').show();
   createPie(incomeData3, "Income Data 3 mile");
   location.hash = "#demographicChart";
@@ -611,7 +650,7 @@ function createPie(data, title){
       visible: true,
       template: "#= kendo.format('{0:P}', percentage)#"
     },
-    seriesColors: ["#d7191c", "#fdae61", "#abdda4", "#2b83ba"]
+    seriesColors: ["#d7191c", "#fdae61", "#ffffbf", "#abd9e9", "#2c7bb6"]
   });
 
   //scrolls popup down to chart
@@ -647,6 +686,6 @@ function createPie2(id, className, data, title){
       visible: true,
       template: "#= category # - #= kendo.format('{0:P}', percentage) #"
     },
-    seriesColors: ["#d7191c", "#fdae61", "#abdda4", "#2b83ba"]
+    seriesColors: ["#d7191c", "#fdae61", "#ffffbf", "#abd9e9", "#2c7bb6"]
   });
 }
