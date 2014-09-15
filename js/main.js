@@ -73,7 +73,7 @@ require([ "esri/map",
   
   var satelliteBasemap = new esri.dijit.Basemap({
     layers      :[satLayer, boundaryLayer, transLayer],
-    title       :"Satellite View",
+    title       :"Satellite",
     thumbnailUrl:"http://www.arcgis.com/sharing/rest/content/items/d802f08316e84c6592ef681c50178f17/info/thumbnail/Imagery_Labels_Trans.jpg"
   });
 
@@ -83,7 +83,7 @@ require([ "esri/map",
 
   var osmBasemap = new esri.dijit.Basemap({
     layers      :[osmLayer],
-    title       :"Original View",
+    title       :"Standard",
     thumbnailUrl:"http://www.arcgis.com/sharing/rest/content/items/b834a68d7a484c5fb473d4ba90d35e71/info/thumbnail/osm.jpg"
   });
 

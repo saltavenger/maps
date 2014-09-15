@@ -40,10 +40,24 @@ body{
 #mapNav{
 	width: 260px;
 	clear: right;
+	position: relative;
+	height: 400px;
 }
 #markerList{
-	height: 250px;
+	height: 280px;
 	overflow: auto;
+}
+.esriBasemapGallery{
+	position: absolute !important;
+	bottom: 0px !important;
+	left: 35px !important;
+}
+.esriBasemapGalleryThumbnail{
+	height: 50px !important;
+	width: 75px !important;
+}
+.esriBasemapGalleryNode{
+	width: 75px !important;
 }
 #legend{
 	clear: both;
