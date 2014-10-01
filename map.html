@@ -12,17 +12,6 @@
       <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css">
       <script src="js/kendo/js/jquery.min.js"></script>
       <script src="js/kendo/js/kendo.all.min.js"></script>
-      <!--<script type="text/javascript">
-        var package_path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
-        var dojoConfig = {
-            // The locationPath logic below may look confusing but all its doing is 
-            // enabling us to load the api from a CDN and load local modules from the correct location.
-            packages: [{
-                name: "application",
-                location: package_path + '/js'
-            }]
-        };
-      </script>-->
   	  <script src="http://js.arcgis.com/3.10/"></script>
       <script src="js/main.js"></script>
     </head>
@@ -32,7 +21,6 @@
         <div id="container"class="clearfix">
         	<div id="mapDiv">
             <div id="HomeButton"></div>
-            <!--<div id="fullscreen"></div>-->
           </div>
           <div id="mapNav">
             <ol id="markerList"></ol>
@@ -137,4 +125,7 @@
           </div>
       </script>
    	</body>
+    <script type="text/javascript">
+      var markers= [];
+    </script>
   </html>
