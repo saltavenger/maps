@@ -17,11 +17,11 @@ var markers = [
 { lat:'39.77642', lon:'-104.9223', nameLink:'<a href="http://oaspub.epa.gov/enviro/tris_control.tris_print?tris_id=80216VNWTR4300H" target=_blank>UNIVAR USA INC DENVER</a>', address: '4300 HOLLY ST, DENVER COLORADO 80216 (DENVER), DENVER, CO 80216', triID: '80216VNWTR4300H', latLonHtml: 'Latitude <span class="lat">39.77642</span>&nbsp; Longitude <span class="lon">-104.9223</span>', label:'UNIVAR USA INC DENVER', ej1:'0.938,0.199,0.224,0.163,0.697,0.006,0.256,0.123,0.366,0.170', ej3:'0.685,0.189,0.361,0.456,0.289,0.013,0.192,0.144,0.311,0.173' }
   ];
 
-/*var fullscreen;*/
+var fullscreen;
 
 var map;
 require([ "esri/map",
-          /*"application/FullScreenMap",*/
+          "application/FullScreenMap",
           "esri/SpatialReference",
           "esri/dijit/Popup",
           "esri/dijit/PopupTemplate",
@@ -45,7 +45,7 @@ require([ "esri/map",
           "dojo/on",
           "dojo/query",
           "dojo/domReady!"
-        ], function(Map, /*FullScreenMap, */SpatialReference, Popup, PopupTemplate, HomeButton, BasemapGallery, Geometry, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, domClass, domConstruct, on, query) { 
+        ], function(Map, FullScreenMap, SpatialReference, Popup, PopupTemplate, HomeButton, BasemapGallery, Geometry, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, domClass, domConstruct, on, query) { 
 
   var popup = Popup({highlight: false},domConstruct.create("div"));
 
@@ -54,10 +54,10 @@ require([ "esri/map",
     infoWindow: popup
   });
 
-  /*fullscreen = new FullScreenMap({
+  fullscreen = new FullScreenMap({
       map: map
   }, "fullscreen");
-  fullscreen.startup();*/
+  fullscreen.startup();
 
   var basemaps = [];
 
@@ -101,7 +101,7 @@ require([ "esri/map",
     console.log("basemap gallery error:  ", msg);
   });
 
-  /*var prevView = fullscreen.fullscreen;*/
+  var prevView = fullscreen.fullscreen;
 
   var homeButton = new HomeButton({
     map: map
@@ -413,14 +413,14 @@ require([ "esri/map",
 
   });
 
-  /* //whenever graphics reload
+  //whenever graphics reload
   map.on("update-end", function(){
     //check whether or not we are in fullscreen view, if it is different from the previous view, recenter and update previous view
     if(fullscreen.fullscreen != prevView){
       homeButton.home();
       prevView = fullscreen.fullscreen;
     }
-  });*/
+  });
 
 });
 
