@@ -254,10 +254,7 @@ require(["esri/map",
         });
 
         $('.bufferMarkers').click(function() {
-            bufferAllMarkers();
-        });
-        $('.bufferMarkers').click(function() {
-            bufferAllMakers();
+            bufferAllMarkers($(this));
         });
 
 
@@ -268,9 +265,9 @@ require(["esri/map",
             return bufferSymb;
         }
 
-        function createBuffer(radius) {
+        function createBuffer(radius, lonLatArray) {
             var buffer = new Circle({
-                center: [$('.lon').text(), $('.lat').text()],
+                center: lonLatArray,
                 geodesic: true,
                 radius: radius,
                 radiusUnit: "esriMiles"
@@ -313,7 +310,8 @@ require(["esri/map",
         }
 
         function addBufferLayer(graphicLayer, radius) {
-            var bufferCircle = new Graphic(createBuffer(radius), createBufferSymbol());
+            var lonLatArray = [$('.lon').text(), $('.lat').text()],
+                bufferCircle = new Graphic(createBuffer(radius, lonLatArray), createBufferSymbol());
             graphicLayer.add(bufferCircle);
             showBufferLegend(radius);
             map.addLayer(graphicLayer);
@@ -344,15 +342,17 @@ require(["esri/map",
             }
         }
 
-        function bufferAllMarkers() {
-            var radius = $(this).data('radius'),
-                graphicLayer = getGraphicLayer("all", radius);
+        function bufferAllMarkers(obj) {
+            var radius = $(obj).data('radius'),
+                graphicLayer = getGraphicLayer("all", radius),
+                lonLatArray = [$('.lon').text(), $('.lat').text()];
 
             hideEverything();
+
             //if graphic layer is empty
             if (graphicLayer._div === null) {
                 for (i in latLonArray.points) {
-                    var bufferCircle = new Graphic(createBuffer(radius), createBufferSymbol());
+                    var bufferCircle = new Graphic(createBuffer(radius, latLonArray.points[i]), createBufferSymbol());
                     graphicLayer.add(bufferCircle);
                 }
                 showBufferLegend(radius);
