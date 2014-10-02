@@ -202,8 +202,7 @@ require(["esri/map",
 
         }
 
-        query('.buffer1Single').on("click", buffer1Single);
-        query('.buffer3Single').on("click", buffer3Single);
+        query('.bufferSingleMarker').on("click", bufferSingleMarker);
         query('.minority1Link').on("click", minority1);
         query('.minority3Link').on("click", minority3);
         query('.poverty1Link').on("click", poverty1);
@@ -231,7 +230,7 @@ require(["esri/map",
             $('.actionList').removeClass('hidden');
         });
 
-        function switchMarkerColor(event, obj, color){
+        function switchMarkerColor(event, obj, color) {
             if (event.graphic.symbol.type != "textsymbol") {
                 event.graphic.symbol.color.setColor(new dojo.Color(color));
                 obj.redraw();
@@ -254,6 +253,13 @@ require(["esri/map",
             switchMarkerColor(evt, this, '#2b83ba');
         });
 
+        $('.bufferMarkers').click(function() {
+            bufferAllMarkers();
+        });
+        $('.bufferMarkers').click(function() {
+            bufferAllMakers();
+        });
+
 
         function createBufferSymbol() {
             var bufferSymb = new SimpleFillSymbol();
@@ -262,144 +268,91 @@ require(["esri/map",
             return bufferSymb;
         }
 
+        function createBuffer(radius) {
+            var buffer = new Circle({
+                center: [$('.lon').text(), $('.lat').text()],
+                geodesic: true,
+                radius: radius,
+                radiusUnit: "esriMiles"
+            });
+            return buffer;
+        }
+
+        function getGraphicLayer(type, radius) {
+            var graphicLayer;
+            if (type === "single") {
+                switch (radius) {
+                    case 1:
+                        graphicLayer = buffer1SingleLayer;
+                    case 3:
+                        graphicLayer = buffer3SingleLayer;
+                }
+                return graphicLayer;
+            } else if (type === "all") {
+                switch (radius) {
+                    case 1:
+                        graphicLayer = buffer1AllLayer;
+                    case 3:
+                        graphicLayer = buffer3AllLayer;
+                }
+                return graphicLayer;
+            }
+        }
+
+        function showBufferLegend(radius) {
+            $('#legendInfo').css('display', 'block');
+            $('#legendInfo').html('<p class="bold">' + radius + ' Mile Radius</p>');
+        }
+
+        function addBufferLayer(graphicLayer, radius) {
+            var bufferCircle = new Graphic(createBuffer(radius), createBufferSymbol());
+            graphicLayer.add(bufferCircle);
+            showBufferLegend(radius);
+            map.addLayer(graphicLayer);
+            map.reorderLayer(graphicLayer, 0);
+            graphicLayer.show();
+        }
+
         //additional graphic layers
-        var buffer1Layer = new GraphicsLayer(),
+        var buffer1AllLayer = new GraphicsLayer(),
             buffer1SingleLayer = new GraphicsLayer(),
-            buffer3Layer = new GraphicsLayer(),
+            buffer3AllLayer = new GraphicsLayer(),
             buffer3SingleLayer = new GraphicsLayer();
 
+        function bufferSingleMarker() {
+            var radius = $(this).data('radius'),
+                url = "http://epamap14.epa.gov/ejmap/demog2010report.aspx?coords=" + $('.lon').text() + "," + $('.lat').text() + "&feattype=point&radius=1",
+                graphicLayer = getGraphicLayer("single", radius);
 
-        $('.buffer1').click(function() {
-            buffer1();
-        });
-
-        $('.buffer3').click(function() {
-            buffer3();
-        });
-
-        function buffer1Single() {
-            var lat = $('.lat').text();
-            var lon = $('.lon').text();
-            var url = "http://epamap14.epa.gov/ejmap/demog2010report.aspx?coords=" + lon + "," + lat + "&feattype=point&radius=1";
             hideEverything();
             window.open(url, "_blank");
-            if (buffer1SingleLayer._div === null) {
-                buffer = new Circle({
-                    center: [lon, lat],
-                    geodesic: true,
-                    radius: 1,
-                    radiusUnit: "esriMiles"
-                });
-                var bufferCircle = new Graphic(buffer, createBufferSymbol());
-                buffer1SingleLayer.add(bufferCircle);
-                $('#legendInfo').css('display', 'block');
-                $('#legendInfo').html('<p class="bold">1 Mile Radius</p>');
-                map.addLayer(buffer1SingleLayer);
-                map.reorderLayer(buffer1SingleLayer, 0);
-                buffer1SingleLayer.show();
+
+            //if graphiclayer is empty
+            if (graphicLayer._div === null) {
+                addBufferLayer(graphicLayer, radius);
             } else {
-                buffer1SingleLayer.clear();
-                buffer = new Circle({
-                    center: [lon, lat],
-                    geodesic: true,
-                    radius: 1,
-                    radiusUnit: "esriMiles"
-                });
-                var bufferCircle = new Graphic(buffer, createBufferSymbol());
-                buffer1SingleLayer.add(bufferCircle);
-                $('#legendInfo').css('display', 'block');
-                $('#legendInfo').html('<p class="bold">1 Mile Radius</p>');
-                map.addLayer(buffer1SingleLayer);
-                map.reorderLayer(buffer1SingleLayer, 0);
-                buffer1SingleLayer.show();
+                graphicLayer.clear();
+                addBufferLayer(graphicLayer, radius);
             }
         }
 
-        function buffer3Single() {
-            var lat = $('.lat').text();
-            var lon = $('.lon').text();
-            var url = "http://epamap14.epa.gov/ejmap/demog2010report.aspx?coords=" + lon + "," + lat + "&feattype=point&radius=3";
-            hideEverything();
-            window.open(url, "_blank");
-            if (buffer3SingleLayer._div === null) {
-                buffer = new Circle({
-                    center: [lon, lat],
-                    geodesic: true,
-                    radius: 3,
-                    radiusUnit: "esriMiles"
-                });
-                var bufferCircle = new Graphic(buffer, createBufferSymbol());
-                buffer3SingleLayer.add(bufferCircle);
-                $('#legendInfo').css('display', 'block');
-                $('#legendInfo').html('<p class="bold">3 Mile Radius</p>');
-                map.addLayer(buffer3SingleLayer);
-                map.reorderLayer(buffer3SingleLayer, 0);
-                buffer3SingleLayer.show();
-            } else {
-                buffer3SingleLayer.clear();
-                buffer = new Circle({
-                    center: [lon, lat],
-                    geodesic: true,
-                    radius: 3,
-                    radiusUnit: "esriMiles"
-                });
-                var bufferCircle = new Graphic(buffer, createBufferSymbol());
-                buffer3SingleLayer.add(bufferCircle);
-                $('#legendInfo').css('display', 'block');
-                $('#legendInfo').html('<p class="bold">3 Mile Radius</p>');
-                map.addLayer(buffer3SingleLayer);
-                map.reorderLayer(buffer3SingleLayer, 0);
-                buffer3SingleLayer.show();
-            }
-        }
+        function bufferAllMarkers() {
+            var radius = $(this).data('radius'),
+                graphicLayer = getGraphicLayer("all", radius);
 
-        function buffer1() {
             hideEverything();
-            if (buffer1Layer._div === null) {
+            if (graphicLayer._div === null) {
                 for (i in latLonArray.points) {
-                    buffer = new Circle({
-                        center: latLonArray.points[i],
-                        geodesic: true,
-                        radius: 1,
-                        radiusUnit: "esriMiles"
-                    });
-                    var bufferCircle = new Graphic(buffer, createBufferSymbol());
-                    buffer1Layer.add(bufferCircle);
+                    var bufferCircle = new Graphic(createBuffer(radius), createBufferSymbol());
+                    graphicLayer.add(bufferCircle);
                 }
-                $('#legendInfo').css('display', 'block');
-                $('#legendInfo').html('<p class="bold">1 Mile Radius</p>');
-                map.addLayer(buffer1Layer);
-                map.reorderLayer(buffer1Layer, 0);
-                buffer1Layer.show();
+                showBufferLegend(radius);
+                map.addLayer(graphicLayer);
+                map.reorderLayer(graphicLayer, 0);
+                graphicLayer.show();
             } else {
-                $('#legendInfo').css('display', 'block');
-                $('#legendInfo').html('<p class="bold">1 Mile Radius</p>');
-                buffer1Layer.show();
-            }
-        }
-
-        function buffer3() {
-            hideEverything();
-            if (buffer3Layer._div === null) {
-                for (i in latLonArray.points) {
-                    buffer = new Circle({
-                        center: latLonArray.points[i],
-                        geodesic: true,
-                        radius: 3,
-                        radiusUnit: "esriMiles"
-                    });
-                    var bufferCircle = new Graphic(buffer, createBufferSymbol());
-                    buffer3Layer.add(bufferCircle);
-                }
-                $('#legendInfo').css('display', 'block');
-                $('#legendInfo').html('<p class="bold">3 Mile Radius</p>');
-                map.addLayer(buffer3Layer);
-                map.reorderLayer(buffer3Layer, 0);
-                buffer3Layer.show();
-            } else {
-                $('#legendInfo').css('display', 'block');
-                $('#legendInfo').html('<p class="bold">3 Mile Radius</p>');
-                buffer3Layer.show();
+                showBufferLegend(radius);
+                graphicLayer.show();
             }
         }
 
@@ -410,9 +363,9 @@ require(["esri/map",
         });
 
         function hideEverything() {
-            buffer1Layer.hide();
+            buffer1AllLayer.hide();
             buffer1SingleLayer.hide();
-            buffer3Layer.hide();
+            buffer3AllLayer.hide();
             buffer3SingleLayer.hide();
             map.infoWindow.hide();
         }

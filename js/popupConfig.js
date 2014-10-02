@@ -5,13 +5,15 @@ function getLinkConfig(type, radius){
             config = {
                 "id": type + radius,
                 "class": "bold",
+                "data-radius": radius,
                 "innerHTML": "EJ Mile " + radius + ": "
             };
             return config;
         case "buffer":
             config ={
-                "class": type + radius + "Single",
+                "class": type + "SingleMarker",
                 "innerHTML": "Demographics",
+                "data-radius": radius,
                 "href": "javascript:void(0);"
             };
             return config;
@@ -19,6 +21,7 @@ function getLinkConfig(type, radius){
             config = {
                 "class": type + radius + "Link",
                 "innerHTML": "Minority",
+                "data-radius": radius,
                 "href": "javascript:void(0);"
             };
             return config;
@@ -26,6 +29,7 @@ function getLinkConfig(type, radius){
             config = {
                 "class": type + radius + "Link",
                 "innerHTML": "Poverty",
+                "data-radius": radius,
                 "href": "javascript:void(0);"
             };
             return config;
@@ -33,6 +37,7 @@ function getLinkConfig(type, radius){
             config = {
                 "class": type + radius + "Link",
                 "innerHTML": "Hispanic",
+                "data-radius": radius,
                 "href": "javascript:void(0);"
             };
             return config;
@@ -40,6 +45,7 @@ function getLinkConfig(type, radius){
             config = {
                 "class": type + radius + "Link",
                 "innerHTML": "Income",
+                "data-radius": radius,
                 "href": "javascript:void(0);"
             };
             return config;
@@ -47,6 +53,7 @@ function getLinkConfig(type, radius){
             config = {
                 "class": "race1Link",
                 "innerHTML": "Race",
+                "data-radius": radius,
                 "href": "javascript:void(0);"
             };
             return config;
