@@ -1,5 +1,7 @@
 var fullscreen,
-    map;
+    map,
+    popup,
+    basemaps = [];
 
 require(["esri/map",
     "application/FullScreenMap",
@@ -28,7 +30,7 @@ require(["esri/map",
     "dojo/domReady!"
 ], function(Map, FullScreenMap, SpatialReference, Popup, PopupTemplate, HomeButton, BasemapGallery, Geometry, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, domClass, domConstruct, on, query) {
 
-    var popup = Popup({
+    popup = Popup({
         highlight: false
     }, domConstruct.create("div"));
 
@@ -42,8 +44,7 @@ require(["esri/map",
     }, "fullscreen");
     fullscreen.startup();
 
-    var basemaps = [],
-        satLayer = new esri.dijit.BasemapLayer({
+    var satLayer = new esri.dijit.BasemapLayer({
             url: "http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"
         }),
         boundaryLayer = new esri.dijit.BasemapLayer({
@@ -92,7 +93,7 @@ require(["esri/map",
         var markerContainer = new GraphicsLayer(),
             latLonArray = new Multipoint();
 
-        for (count = 0 ; count < markers.length; count++) {
+        for (count = 0; count < markers.length; count++) {
             var point = new Point(markers[count].lon, markers[count].lat),
                 symbol = createMarkerSymbol();
 
@@ -101,19 +102,19 @@ require(["esri/map",
             addMarkerGraphic(point, symbol, popupTemplate(count));
 
             addTextGraphic(point, createText(count), popupTemplate(count));
- 
+
             latLonArray.addPoint(point);
         }
 
         function addListItem(count) {
-            var listItem = "<li><a class='showPopup' data-number='" + count + "' href='javascript:void(0);'>" + markers[count].label + "</a></li>";
+            var listItem = "<li><a class='markerListPopup' data-number='" + count + "' href='javascript:void(0);'>" + markers[count].label + "</a></li>";
             $('#markerList').append(listItem);
         }
 
         function popupTemplate(count) {
             var popupTemplate = new esri.dijit.PopupTemplate(),
+                /*for popups*/
                 html = ["<p>" + markers[count].nameLink + "</p>",
-                    /*for popups*/
                     "<p>" + markers[count].address + "</p>",
                     "<p>TRI ID= " + markers[count].triID + "</p>",
                     "<p>" + markers[count].latLonHtml + "</p>",
@@ -124,9 +125,9 @@ require(["esri/map",
             return popupTemplate;
         }
 
-        function addTextGraphic(point, text, popupTemplate){
+        function addTextGraphic(point, text, popupTemplate) {
             var textGraphic = new Graphic(point, text);
-            textGraphic.setInfoTemplate(popupTemplate);        
+            textGraphic.setInfoTemplate(popupTemplate);
             markerContainer.add(textGraphic);
         }
 
@@ -164,149 +165,42 @@ require(["esri/map",
             return s;
         }
 
+        //set map and home button extent
         var setMap = latLonArray.getExtent();
         map.setExtent(setMap.expand(2));
         homeButton.extent = setMap.expand(2);
+        //add markers to map
         map.addLayer(markerContainer);
 
-        //hover & click color for markers
-        markerContainer.on("mouse-over", function(evt) {
-            if (evt.graphic.symbol.type != "textsymbol") {
-                evt.graphic.symbol.color.setColor(new dojo.Color("#d7191c"));
-                markerContainer.redraw();
-            } else if (evt.graphic.symbol.type === "textsymbol") {
-                evt.target.previousSibling.e_graphic.symbol.color.setColor(new dojo.Color("#d7191c"));
-                markerContainer.redraw();
+
+        //add and configure links in popup;
+        domConstruct.create("p", getLinkConfig("ejMile", 1), findDomPlacement('actionList'));
+        domConstruct.create("p", getLinkConfig("ejMile", 3), findDomPlacement('actionList'));
+        var buffer1Link = domConstruct.create("a", getLinkConfig("buffer", 1), findDomPlacement('ejMile1')),
+            buffer3Link = domConstruct.create("a", getLinkConfig("buffer", 3), findDomPlacement('ejMile3')),
+            minority1Link = domConstruct.create("a", getLinkConfig("minority", 1), findDomPlacement('ejMile1')),
+            minority3Link = domConstruct.create("a", getLinkConfig("minority", 3), findDomPlacement('ejMile3')),
+            poverty1Link = domConstruct.create("a", getLinkConfig("poverty", 1), findDomPlacement('ejMile1')),
+            poverty3Link = domConstruct.create("a", getLinkConfig("poverty", 3), findDomPlacement('ejMile3')),
+            hispanic1Link = domConstruct.create("a", getLinkConfig("hispanic", 1), findDomPlacement('ejMile1')),
+            hispanic3Link = domConstruct.create("a", getLinkConfig("hispanic", 3), findDomPlacement('ejMile3')),
+            income1Link = domConstruct.create("a", getLinkConfig('income', 1), findDomPlacement('ejMile1')),
+            income3Link = domConstruct.create("a", getLinkConfig('income', 3), findDomPlacement('ejMile3')),
+            race1Link = domConstruct.create("a", getLinkConfig('race', 1), findDomPlacement('ejMile1')),
+            race3Link = domConstruct.create("a", getLinkConfig('race', 3), findDomPlacement('ejMile3'));
+
+        function findDomPlacement(type) {
+            var domPopup = window.map.infoWindow.domNode;
+            switch (type) {
+                case ('actionList'):
+                    return query('.actionList', domPopup)[0];
+                case ('ejMile1'):
+                    return query('#ejMile1', domPopup)[0];
+                case ('ejMile3'):
+                    return query('#ejMile3', domPopup)[0];
             }
-        });
 
-        markerContainer.on("mouse-down", function(evt) {
-            if (evt.graphic.symbol.type != "textsymbol") {
-                evt.graphic.symbol.color.setColor(new dojo.Color("#1A608D"));
-                markerContainer.redraw();
-            } else if (evt.graphic.symbol.type === "textsymbol") {
-                evt.target.previousSibling.e_graphic.symbol.color.setColor(new dojo.Color("#1A608D"));
-                markerContainer.redraw();
-            }
-        });
-
-        markerContainer.on("mouse-out", function(evt) {
-            if (evt.graphic.symbol.type != "textsymbol") {
-                evt.graphic.symbol.color.setColor(new dojo.Color("#2b83ba"));
-                markerContainer.redraw();
-            } else if (evt.graphic.symbol.type === "textsymbol") {
-                evt.target.previousSibling.e_graphic.symbol.color.setColor(new dojo.Color("#2b83ba"));
-                markerContainer.redraw();
-            }
-        });
-
-        markerContainer.on("mouse-up", function(evt) {
-            if (evt.graphic.symbol.type != "textsymbol") {
-                evt.graphic.symbol.color.setColor(new dojo.Color("#2b83ba"));
-                markerContainer.redraw();
-            } else if (evt.graphic.symbol.type === "textsymbol") {
-                evt.target.previousSibling.e_graphic.symbol.color.setColor(new dojo.Color("#2b83ba"));
-                markerContainer.redraw();
-            }
-        });
-
-        //additional graphic layers
-
-        var bufferSymb = new SimpleFillSymbol();
-        bufferSymb.setOutline(null);
-        bufferSymb.setColor(new dojo.Color([105, 137, 158, 0.45]));
-        var buffer1Layer = new GraphicsLayer();
-        var buffer1SingleLayer = new GraphicsLayer();
-        var buffer3Layer = new GraphicsLayer();
-        var buffer3SingleLayer = new GraphicsLayer();
-
-        $('.showPopup').click(function() {
-            var num = $(this).data("number");
-            var lat = markers[num].lat;
-            var lon = markers[num].lon;
-            var p = new Point(lon, lat);
-            var html = "<p>" + markers[num].nameLink + "</p>"; /*for popups*/
-            html += "<p>" + markers[num].address + "</p>";
-            html += "<p>TRI ID= " + markers[num].triID + "</p>";
-            html += "<p>" + markers[num].latLonHtml + "</p>";
-            html += "<div id='demographicChart'></div>";
-            html += "<div id='markerNum' data-number='" + num + "'></div>";
-            map.infoWindow.setTitle("");
-            map.infoWindow.setContent(html);
-            map.infoWindow.show(p);
-            $('.actionList').removeClass('hidden');
-        });
-
-        domConstruct.create("p", {
-            "id": "ejMile1",
-            "class": "bold",
-            "innerHTML": "EJ Mile 1: "
-        }, query(".actionList", window.map.infoWindow.domNode)[0]);
-        domConstruct.create("p", {
-            "id": "ejMile3",
-            "class": "bold",
-            "innerHTML": "EJ Mile 3: "
-        }, query(".actionList", window.map.infoWindow.domNode)[0]);
-        var buffer1Link = domConstruct.create("a", {
-            "class": "buffer1Single",
-            "innerHTML": "Demographics",
-            "href": "javascript:void(0);"
-        }, query("#ejMile1", window.map.infoWindow.domNode)[0]);
-        var buffer3Link = domConstruct.create("a", {
-            "class": "buffer3Single",
-            "innerHTML": "Demographics",
-            "href": "javascript:void(0);"
-        }, query("#ejMile3", window.map.infoWindow.domNode)[0]);
-        var minority1Link = domConstruct.create("a", {
-            "class": "minority1Link",
-            "innerHTML": "Minority",
-            "href": "javascript:void(0);"
-        }, query("#ejMile1", window.map.infoWindow.domNode)[0]);
-        var minority3Link = domConstruct.create("a", {
-            "class": "minority3Link",
-            "innerHTML": "Minority",
-            "href": "javascript:void(0);"
-        }, query("#ejMile3", window.map.infoWindow.domNode)[0]);
-        var poverty1Link = domConstruct.create("a", {
-            "class": "poverty1Link",
-            "innerHTML": "Poverty",
-            "href": "javascript:void(0);"
-        }, query("#ejMile1", window.map.infoWindow.domNode)[0]);
-        var poverty3Link = domConstruct.create("a", {
-            "class": "poverty3Link",
-            "innerHTML": "Poverty",
-            "href": "javascript:void(0);"
-        }, query("#ejMile3", window.map.infoWindow.domNode)[0]);
-        var hispanic1Link = domConstruct.create("a", {
-            "class": "hispanic1Link",
-            "innerHTML": "Hispanic",
-            "href": "javascript:void(0);"
-        }, query("#ejMile1", window.map.infoWindow.domNode)[0]);
-        var hispanic3Link = domConstruct.create("a", {
-            "class": "hispanic3Link",
-            "innerHTML": "Hispanic",
-            "href": "javascript:void(0);"
-        }, query("#ejMile3", window.map.infoWindow.domNode)[0]);
-        var income1Link = domConstruct.create("a", {
-            "class": "income1Link",
-            "innerHTML": "Income",
-            "href": "javascript:void(0);"
-        }, query("#ejMile1", window.map.infoWindow.domNode)[0]);
-        var income3Link = domConstruct.create("a", {
-            "class": "income3Link",
-            "innerHTML": "Income",
-            "href": "javascript:void(0);"
-        }, query("#ejMile3", window.map.infoWindow.domNode)[0]);
-        var race1Link = domConstruct.create("a", {
-            "class": "race1Link",
-            "innerHTML": "Race",
-            "href": "javascript:void(0);"
-        }, query("#ejMile1", window.map.infoWindow.domNode)[0]);
-        var race3Link = domConstruct.create("a", {
-            "class": "race3Link",
-            "innerHTML": "Race",
-            "href": "javascript:void(0);"
-        }, query("#ejMile3", window.map.infoWindow.domNode)[0]);
+        }
 
         query('.buffer1Single').on("click", buffer1Single);
         query('.buffer3Single').on("click", buffer3Single);
@@ -320,6 +214,59 @@ require(["esri/map",
         query('.income3Link').on("click", income3);
         query('.race1Link').on("click", race1);
         query('.race3Link').on("click", race3);
+
+        $('.markerListPopup').click(function() {
+            var num = $(this).data("number"),
+                point = new Point(markers[num].lon, markers[num].lat),
+                html = ["<p>" + markers[num].nameLink + "</p>",
+                    "<p>" + markers[num].address + "</p>",
+                    "<p>TRI ID= " + markers[num].triID + "</p>",
+                    "<p>" + markers[num].latLonHtml + "</p>",
+                    "<div id='demographicChart'></div>",
+                    "<div id='markerNum' data-number='" + num + "'></div>"
+                ].join('\n');
+            map.infoWindow.setTitle("");
+            map.infoWindow.setContent(html);
+            map.infoWindow.show(point);
+            $('.actionList').removeClass('hidden');
+        });
+
+        function switchMarkerColor(event, obj, color){
+            if (event.graphic.symbol.type != "textsymbol") {
+                event.graphic.symbol.color.setColor(new dojo.Color(color));
+                obj.redraw();
+            } else if (event.graphic.symbol.type === "textsymbol") {
+                event.target.previousSibling.e_graphic.symbol.color.setColor(new dojo.Color(color));
+                obj.redraw();
+            }
+        }
+
+        //hover & click color for markers
+        markerContainer.on("mouse-over", function(evt) {
+            switchMarkerColor(evt, this, "#d7191c");
+        });
+
+        markerContainer.on("mouse-down", function(evt) {
+            switchMarkerColor(evt, this, '#1A608D');
+        });
+
+        markerContainer.on("mouse-out, mouse-up", function(evt) {
+            switchMarkerColor(evt, this, '#2b83ba');
+        });
+
+
+        function createBufferSymbol() {
+            var bufferSymb = new SimpleFillSymbol();
+            bufferSymb.setOutline(null);
+            bufferSymb.setColor(new dojo.Color([105, 137, 158, 0.45]));
+            return bufferSymb;
+        }
+
+        //additional graphic layers
+        var buffer1Layer = new GraphicsLayer(),
+            buffer1SingleLayer = new GraphicsLayer(),
+            buffer3Layer = new GraphicsLayer(),
+            buffer3SingleLayer = new GraphicsLayer();
 
 
         $('.buffer1').click(function() {
@@ -343,7 +290,7 @@ require(["esri/map",
                     radius: 1,
                     radiusUnit: "esriMiles"
                 });
-                var bufferCircle = new Graphic(buffer, bufferSymb);
+                var bufferCircle = new Graphic(buffer, createBufferSymbol());
                 buffer1SingleLayer.add(bufferCircle);
                 $('#legendInfo').css('display', 'block');
                 $('#legendInfo').html('<p class="bold">1 Mile Radius</p>');
@@ -358,7 +305,7 @@ require(["esri/map",
                     radius: 1,
                     radiusUnit: "esriMiles"
                 });
-                var bufferCircle = new Graphic(buffer, bufferSymb);
+                var bufferCircle = new Graphic(buffer, createBufferSymbol());
                 buffer1SingleLayer.add(bufferCircle);
                 $('#legendInfo').css('display', 'block');
                 $('#legendInfo').html('<p class="bold">1 Mile Radius</p>');
@@ -381,7 +328,7 @@ require(["esri/map",
                     radius: 3,
                     radiusUnit: "esriMiles"
                 });
-                var bufferCircle = new Graphic(buffer, bufferSymb);
+                var bufferCircle = new Graphic(buffer, createBufferSymbol());
                 buffer3SingleLayer.add(bufferCircle);
                 $('#legendInfo').css('display', 'block');
                 $('#legendInfo').html('<p class="bold">3 Mile Radius</p>');
@@ -396,7 +343,7 @@ require(["esri/map",
                     radius: 3,
                     radiusUnit: "esriMiles"
                 });
-                var bufferCircle = new Graphic(buffer, bufferSymb);
+                var bufferCircle = new Graphic(buffer, createBufferSymbol());
                 buffer3SingleLayer.add(bufferCircle);
                 $('#legendInfo').css('display', 'block');
                 $('#legendInfo').html('<p class="bold">3 Mile Radius</p>');
@@ -416,7 +363,7 @@ require(["esri/map",
                         radius: 1,
                         radiusUnit: "esriMiles"
                     });
-                    var bufferCircle = new Graphic(buffer, bufferSymb);
+                    var bufferCircle = new Graphic(buffer, createBufferSymbol());
                     buffer1Layer.add(bufferCircle);
                 }
                 $('#legendInfo').css('display', 'block');
@@ -441,7 +388,7 @@ require(["esri/map",
                         radius: 3,
                         radiusUnit: "esriMiles"
                     });
-                    var bufferCircle = new Graphic(buffer, bufferSymb);
+                    var bufferCircle = new Graphic(buffer, createBufferSymbol());
                     buffer3Layer.add(bufferCircle);
                 }
                 $('#legendInfo').css('display', 'block');
@@ -459,7 +406,7 @@ require(["esri/map",
         $("#hideLayers").click(function() {
             hideEverything();
             $('#legendInfo').empty();
-            $('#legendInfo').css('display', 'hidden');
+            $('#legendInfo').css('display', 'none');
         });
 
         function hideEverything() {
@@ -483,6 +430,6 @@ require(["esri/map",
 
 });
 
-$(document).ready(function(){
-  $("#hideLayers").kendoButton();
+$(document).ready(function() {
+    $("#hideLayers").kendoButton();
 });
