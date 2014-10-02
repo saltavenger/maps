@@ -1,4 +1,5 @@
-maps
+TRI.net Map
 ====
 
-arcgis map w/ kendo data visualization
+Data Visualization for EPA TRI.Net Data (Toxic Release Inventory) using ArcGIS and Kendo UI.
+Get breakdowns of facility demographic data by using the map or the grid. 
