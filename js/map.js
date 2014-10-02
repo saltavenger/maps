@@ -176,43 +176,43 @@ require(["esri/map",
         //add and configure links in popup;
         domConstruct.create("p", getLinkConfig("ejMile", 1), findDomPlacement('actionList'));
         domConstruct.create("p", getLinkConfig("ejMile", 3), findDomPlacement('actionList'));
-        var buffer1Link = domConstruct.create("a", getLinkConfig("buffer", 1), findDomPlacement('ejMile1')),
-            buffer3Link = domConstruct.create("a", getLinkConfig("buffer", 3), findDomPlacement('ejMile3')),
-            minority1Link = domConstruct.create("a", getLinkConfig("minority", 1), findDomPlacement('ejMile1')),
-            minority3Link = domConstruct.create("a", getLinkConfig("minority", 3), findDomPlacement('ejMile3')),
-            poverty1Link = domConstruct.create("a", getLinkConfig("poverty", 1), findDomPlacement('ejMile1')),
-            poverty3Link = domConstruct.create("a", getLinkConfig("poverty", 3), findDomPlacement('ejMile3')),
-            hispanic1Link = domConstruct.create("a", getLinkConfig("hispanic", 1), findDomPlacement('ejMile1')),
-            hispanic3Link = domConstruct.create("a", getLinkConfig("hispanic", 3), findDomPlacement('ejMile3')),
-            income1Link = domConstruct.create("a", getLinkConfig('income', 1), findDomPlacement('ejMile1')),
-            income3Link = domConstruct.create("a", getLinkConfig('income', 3), findDomPlacement('ejMile3')),
-            race1Link = domConstruct.create("a", getLinkConfig('race', 1), findDomPlacement('ejMile1')),
-            race3Link = domConstruct.create("a", getLinkConfig('race', 3), findDomPlacement('ejMile3'));
+        domConstruct.create("a", getLinkConfig("buffer", 1), findDomPlacement('ejMile1')),
+        domConstruct.create("a", getLinkConfig("buffer", 3), findDomPlacement('ejMile3')),
+        domConstruct.create("a", getLinkConfig("minority", 1), findDomPlacement('ejMile1')),
+        domConstruct.create("a", getLinkConfig("minority", 3), findDomPlacement('ejMile3')),
+        domConstruct.create("a", getLinkConfig("poverty", 1), findDomPlacement('ejMile1')),
+        domConstruct.create("a", getLinkConfig("poverty", 3), findDomPlacement('ejMile3')),
+        domConstruct.create("a", getLinkConfig("hispanic", 1), findDomPlacement('ejMile1')),
+        domConstruct.create("a", getLinkConfig("hispanic", 3), findDomPlacement('ejMile3')),
+        domConstruct.create("a", getLinkConfig('income', 1), findDomPlacement('ejMile1')),
+        domConstruct.create("a", getLinkConfig('income', 3), findDomPlacement('ejMile3')),
+        domConstruct.create("a", getLinkConfig('race', 1), findDomPlacement('ejMile1')),
+        domConstruct.create("a", getLinkConfig('race', 3), findDomPlacement('ejMile3'));
 
         function findDomPlacement(type) {
             var domPopup = window.map.infoWindow.domNode;
             switch (type) {
                 case ('actionList'):
                     return query('.actionList', domPopup)[0];
+                    break;
                 case ('ejMile1'):
                     return query('#ejMile1', domPopup)[0];
+                    break;
                 case ('ejMile3'):
                     return query('#ejMile3', domPopup)[0];
+                    break;
+                default:
+                    break;
             }
 
         }
 
         query('.bufferSingleMarker').on("click", bufferSingleMarker);
-        query('.minority1Link').on("click", minority1);
-        query('.minority3Link').on("click", minority3);
-        query('.poverty1Link').on("click", poverty1);
-        query('.poverty3Link').on("click", poverty3);
-        query('.hispanic1Link').on("click", hispanic1);
-        query('.hispanic3Link').on("click", hispanic3);
-        query('.income1Link').on("click", income1);
-        query('.income3Link').on("click", income3);
-        query('.race1Link').on("click", race1);
-        query('.race3Link').on("click", race3);
+        query('.minorityLink').on("click", createPopupPie);
+        query('.povertyLink').on("click", createPopupPie);
+        query('.hispanicLink').on("click", createPopupPie);
+        query('.incomeLink').on("click", createPopupPie);
+        query('.raceLink').on("click", createPopupPie);
 
         $('.markerListPopup').click(function() {
             var num = $(this).data("number"),
@@ -284,16 +284,24 @@ require(["esri/map",
                 switch (radius) {
                     case 1:
                         graphicLayer = buffer1SingleLayer;
+                        break;
                     case 3:
                         graphicLayer = buffer3SingleLayer;
+                        break;
+                    default:
+                        break;
                 }
                 return graphicLayer;
             } else if (type === "all") {
                 switch (radius) {
                     case 1:
                         graphicLayer = buffer1AllLayer;
+                        break;
                     case 3:
                         graphicLayer = buffer3AllLayer;
+                        break;
+                    default:
+                        break;
                 }
                 return graphicLayer;
             }
@@ -341,6 +349,7 @@ require(["esri/map",
                 graphicLayer = getGraphicLayer("all", radius);
 
             hideEverything();
+            //if graphic layer is empty
             if (graphicLayer._div === null) {
                 for (i in latLonArray.points) {
                     var bufferCircle = new Graphic(createBuffer(radius), createBufferSymbol());

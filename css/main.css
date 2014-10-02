@@ -81,6 +81,7 @@ body{
 	font-family: Arial;
 	font-size: x-small;
 }
+
 .clearfix{
   overflow: auto;
   zoom: 1;
@@ -99,7 +100,7 @@ body{
 	display: inline-block;
 	width: 150px;
 }
-.minority1Link, .race1Link, .poverty1Link, .hispanic1Link, .income1Link, .minority3Link, .race3Link, .poverty3Link, .hispanic3Link, .income3Link{
+.minorityLink, .raceLink, .povertyLink, .hispanicLink, .incomeLink{
 	margin-left: 3px;
 	display: inline-block;
 }
