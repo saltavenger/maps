@@ -159,3 +159,19 @@ var markers = [{
     ej1: '0.938,0.199,0.224,0.163,0.697,0.006,0.256,0.123,0.366,0.170',
     ej3: '0.685,0.189,0.361,0.456,0.289,0.013,0.192,0.144,0.311,0.173'
 }];
+
+function createTableData(){
+    var data = [];
+    for (i in markers) {
+        var dataObject = {
+            mapNum: parseInt(i) + 1,
+            facName: markers[i].nameLink,
+            address: markers[i].address,
+            triID: markers[i].triID,
+            lat: markers[i].lat,
+            lon: markers[i].lon
+        };
+        data.push(dataObject);
+    }
+    return data;
+}
