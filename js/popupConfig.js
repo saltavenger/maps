@@ -76,3 +76,17 @@ function getLinkConfig(type, radius){
     }
 }
 
+function createPopupPie() {
+    var radius = $(this).data('radius'),
+        type = $(this).data('type'),
+        whichMarker = $('#markerNum').data('number'),
+        title = new String(),
+        pieData;
+    if (radius === 1) {
+        pieData = getPieData(whichMarker)[type + "DataOneMile"];
+    } else if (radius === 3) {
+        pieData = getPieData(whichMarker)[type + "DataThreeMile"];
+    }
+    $('#demographicChart').show();
+    createPie(pieData, getTitle(type, radius));
+}
