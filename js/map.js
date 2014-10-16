@@ -86,20 +86,26 @@ require(["esri/map",
             latLonArray = new Multipoint();
 
         for (count = 0; count < markers.length; count++) {
-            var point = new Point(markers[count].lon, markers[count].lat),
+            var lat = markers[count].lat,
+            lon = markers[count].lon;
+            if(lat !== "" || lon !== ""){
+                console.log(markers[count].label + ' count:' + count);
+                var point = new Point(markers[count].lon, markers[count].lat),
                 symbol = createMarkerSymbol();
 
-            addListItem(count);
+                addListItem(count);
 
-            addMarkerGraphic(point, symbol, popupTemplate(count));
+                addMarkerGraphic(point, symbol, popupTemplate(count));
 
-            addTextGraphic(point, createText(count), popupTemplate(count));
+                addTextGraphic(point, createText(count), popupTemplate(count));
 
-            latLonArray.addPoint(point);
+                latLonArray.addPoint(point);
+            }
         }
 
         function addListItem(count) {
-            var listItem = "<li><a class='markerListPopup' data-number='" + count + "' href='javascript:void(0);'>" + markers[count].label + "</a></li>";
+            var itemNum = count+1,
+            listItem = "<li value='"+ itemNum + "'><a class='markerListPopup' data-number='" + count + "' href='javascript:void(0);'>" + markers[count].label + "</a></li>";
             $('#markerList').append(listItem);
         }
 

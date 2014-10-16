@@ -1,3 +1,19 @@
+function createTableData(){
+    var data = [];
+    for (i in markers) {
+        var dataObject = {
+            mapNum: parseInt(i) + 1,
+            facName: markers[i].nameLink,
+            address: markers[i].address,
+            triID: markers[i].triID,
+            lat: markers[i].lat,
+            lon: markers[i].lon
+        };
+        data.push(dataObject);
+    }
+    return data;
+}
+
 var tableColumns = [{
     field: "mapNum",
     title: " ",
