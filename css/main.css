@@ -160,31 +160,3 @@ a:hover, a:focus{
 }
 
 .k-tooltip { margin-left: -10px; }
-
-#fullscreen{
-    position:absolute;
-    z-index: 4;
-    top:20px;
-    right:20px;
-}
-.fs .toggle{
-    width: 30px;
-    height: 30px;
-    border: 1px solid #57585A;
-    -webkit-user-select: none;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    cursor:pointer;
-}
-.fs .toggle:hover{
-    background-color: #eee;
-}
-.fs .toggle:active{
-    background-color: #ddd;
-}
-.fs .enter{
-    background: #fff url(../images/fullscreen_enter.png) no-repeat center center;
-}
-.fs .exit{
-    background: #fff url(../images/fullscreen_exit.png) no-repeat center center;
-}

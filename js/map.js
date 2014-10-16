@@ -1,10 +1,8 @@
-var fullscreen,
-    map,
+var map,
     popup,
     basemaps = [];
 
 require(["esri/map",
-    "application/FullScreenMap",
     "esri/SpatialReference",
     "esri/dijit/Popup",
     "esri/dijit/PopupTemplate",
@@ -28,7 +26,7 @@ require(["esri/map",
     "dojo/on",
     "dojo/query",
     "dojo/domReady!"
-], function(Map, FullScreenMap, SpatialReference, Popup, PopupTemplate, HomeButton, BasemapGallery, Geometry, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, domClass, domConstruct, on, query) {
+], function(Map, SpatialReference, Popup, PopupTemplate, HomeButton, BasemapGallery, Geometry, Point, Multipoint, Circle, Extent, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, Font, TextSymbol, Graphic, GraphicsLayer, Color, domClass, domConstruct, on, query) {
 
     popup = Popup({
         highlight: false
@@ -38,11 +36,6 @@ require(["esri/map",
         basemap: "osm",
         infoWindow: popup
     });
-
-    fullscreen = new FullScreenMap({
-        map: map
-    }, "fullscreen");
-    fullscreen.startup();
 
     var satLayer = new esri.dijit.BasemapLayer({
             url: "http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"
@@ -75,7 +68,6 @@ require(["esri/map",
             basemaps: basemaps,
             map: map
         }, "basemapGallery"),
-        prevView = fullscreen.fullscreen,
         homeButton = new HomeButton({
             map: map
         }, "HomeButton");
@@ -379,15 +371,6 @@ require(["esri/map",
             map.infoWindow.hide();
         }
 
-    });
-
-    //whenever graphics reload
-    map.on("update-end", function() {
-        //check whether or not we are in fullscreen view, if it is different from the previous view, recenter and update previous view
-        if (fullscreen.fullscreen != prevView) {
-            homeButton.home();
-            prevView = fullscreen.fullscreen;
-        }
     });
 
 });
