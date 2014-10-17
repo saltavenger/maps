@@ -84,12 +84,10 @@ require(["esri/map",
     map.on("load", function() {
         var markerContainer = new GraphicsLayer(),
             latLonArray = new Multipoint();
-
         for (count = 0; count < markers.length; count++) {
             var lat = markers[count].lat,
             lon = markers[count].lon;
             if(lat !== "" || lon !== ""){
-                console.log(markers[count].label + ' count:' + count);
                 var point = new Point(markers[count].lon, markers[count].lat),
                 symbol = createMarkerSymbol();
 
@@ -105,7 +103,7 @@ require(["esri/map",
 
         function addListItem(count) {
             var itemNum = count+1,
-            listItem = "<li value='"+ itemNum + "'><a class='markerListPopup' data-number='" + count + "' href='javascript:void(0);'>" + markers[count].label + "</a></li>";
+            listItem = "<li><a class='markerListPopup' data-number='" + count + "' href='javascript:void(0);'>" + markers[count].label + "</a></li>";
             $('#markerList').append(listItem);
         }
 

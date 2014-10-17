@@ -64,7 +64,10 @@ function pieConfigTable(data, title) {
             visible: true,
             template: "#= category #: #= kendo.format('{0:P}', percentage) #"
         },
-        seriesColors: ["#d7191c", "#fdae61", "#ffffbf", "#abd9e9", "#2c7bb6"]
+        seriesColors: ["#d7191c", "#fdae61", "#ffffbf", "#abd9e9", "#2c7bb6"],
+        dataBound: function(e) {
+            console.log(e);
+        }
     }
     return config;
 }

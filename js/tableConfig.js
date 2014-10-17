@@ -1,6 +1,14 @@
 function createTableData(){
     var data = [];
     for (i in markers) {
+        var lat = markers[i].lat,
+        lon = markers[i].lon;
+        if(lat === "" || lon === ""){
+            //if no lat, lon move to end of table
+            addMarker = markers.slice(i, i+1);
+            markers.splice(i, 1);
+            markers.push(addMarker[0]);
+        }
         var dataObject = {
             mapNum: parseInt(i) + 1,
             facName: markers[i].nameLink,
