@@ -89,4 +89,5 @@ function createPopupPie() {
     }
     $('#demographicChart').show();
     createPie(pieData, getTitle(type, radius));
+    addDataError();
 }

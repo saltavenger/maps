@@ -62,24 +62,24 @@ var tableSchema = {
 };
 
 function getPieData(i) {
-    var demographicOneMileRadius = markers[i].ej1.split(","),
-        incomeData1OneMile = demographicOneMileRadius[6],
+    var demographicOneMileRadius = markers[i].ej1.split(",");
+        var incomeData1OneMile = demographicOneMileRadius[6],
         incomeData2OneMile = demographicOneMileRadius[7],
         incomeData3OneMile = demographicOneMileRadius[8],
         incomeData4OneMile = demographicOneMileRadius[9],
         almostAllIncomesOneMile = parseFloat(incomeData1OneMile) + parseFloat(incomeData2OneMile) + parseFloat(incomeData3OneMile) + parseFloat(incomeData4OneMile),
-        incomeData5OneMile = 1 - almostAllIncomesOneMile,
+        incomeData5OneMile = (almostAllIncomesOneMile === "")? "" : almostAllIncomesOneMile,
         raceData1OneMile = demographicOneMileRadius[3],
         raceData2OneMile = demographicOneMileRadius[4],
         raceData3OneMile = demographicOneMileRadius[5],
         almostAllRaceOneMile = parseFloat(raceData1OneMile) + parseFloat(raceData2OneMile) + parseFloat(raceData3OneMile),
-        raceData4OneMile = 1 - almostAllRaceOneMile,
+        raceData4OneMile = (almostAllRaceOneMile === "")? "" : 1- almostAllRaceOneMile,
         minorityDataOneMile = [{
             category: "Minority",
             value: demographicOneMileRadius[0]
         }, {
             category: "Other",
-            value: 1 - demographicOneMileRadius[0],
+            value: (demographicOneMileRadius[0] === "" )? "" : 1 - demographicOneMileRadius[0],
             valueColor: "#000"
         }],
         povertyDataOneMile = [{
@@ -87,7 +87,7 @@ function getPieData(i) {
             value: demographicOneMileRadius[1]
         }, {
             category: "Other",
-            value: 1 - demographicOneMileRadius[1],
+            value: (demographicOneMileRadius[1] === "")? "" :  1 - demographicOneMileRadius[1],
             valueColor: "#000"
         }],
         hispanicDataOneMile = [{
@@ -95,7 +95,7 @@ function getPieData(i) {
             value: demographicOneMileRadius[2]
         }, {
             category: "Other",
-            value: 1 - demographicOneMileRadius[2],
+            value: (demographicOneMileRadius[2] === "")? "" : 1 - demographicOneMileRadius[2],
             valueColor: "#000"
         }],
         incomeDataOneMile = [{
@@ -128,24 +128,24 @@ function getPieData(i) {
             value: raceData4OneMile
         }];
 
-    var demographicThreeMileRadius = markers[i].ej3.split(","),
-        incomeData1ThreeMile = demographicThreeMileRadius[6],
+    var demographicThreeMileRadius = markers[i].ej3.split(",");
+        var incomeData1ThreeMile = demographicThreeMileRadius[6],
         incomeData2ThreeMile = demographicThreeMileRadius[7],
         incomeData3ThreeMile = demographicThreeMileRadius[8],
         incomeData4ThreeMile = demographicThreeMileRadius[9],
         almostAllIncomesThreeMile = parseFloat(incomeData1ThreeMile) + parseFloat(incomeData2ThreeMile) + parseFloat(incomeData3ThreeMile) + parseFloat(incomeData4ThreeMile),
-        incomeData5ThreeMile = 1 - almostAllIncomesThreeMile,
+        incomeData5ThreeMile = (almostAllIncomesThreeMile === "")? "" : 1 - almostAllIncomesThreeMile,
         raceData1ThreeMile = demographicThreeMileRadius[3],
         raceData2ThreeMile = demographicThreeMileRadius[4],
         raceData3ThreeMile = demographicThreeMileRadius[5],
         almostAllRaceThreeMile = parseFloat(raceData1ThreeMile) + parseFloat(raceData2ThreeMile) + parseFloat(raceData3ThreeMile),
-        raceData4ThreeMile = 1 - almostAllRaceThreeMile,
+        raceData4ThreeMile = (almostAllRaceThreeMile === "")? "" : 1 - almostAllRaceThreeMile,
         minorityDataThreeMile = [{
             category: "Minority",
             value: demographicThreeMileRadius[0]
         }, {
             category: "Other",
-            value: 1 - demographicThreeMileRadius[0],
+            value: (demographicThreeMileRadius[0] === "")? "" : 1 - demographicThreeMileRadius[0],
             valueColor: "#000"
         }],
         povertyDataThreeMile = [{
@@ -153,7 +153,7 @@ function getPieData(i) {
             value: demographicThreeMileRadius[1]
         }, {
             category: "Other",
-            value: 1 - demographicThreeMileRadius[1],
+            value: (demographicThreeMileRadius[1] === "")? "" : 1 - demographicThreeMileRadius[1],
             valueColor: "#000"
         }],
         hispanicDataThreeMile = [{
@@ -161,7 +161,7 @@ function getPieData(i) {
             value: demographicThreeMileRadius[2]
         }, {
             category: "Other",
-            value: 1 - demographicThreeMileRadius[2],
+            value: (demographicThreeMileRadius[2] === "")? "" : 1 - demographicThreeMileRadius[2],
             valueColor: "#000"
         }],
         incomeDataThreeMile = [{

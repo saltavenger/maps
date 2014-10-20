@@ -7,6 +7,9 @@ function pieConfigPopup(data, title) {
             padding: 0,
             margin: 0
         }],
+        dataBound: function(e){
+            console.log(this);
+        },
         chartArea: {
             background: "#F7F7F7"
         },
@@ -48,6 +51,9 @@ function pieConfigTable(data, title) {
             padding: 0,
             margin: 0
         }],
+        dataBound: function(e) {
+            console.log(e);
+        },
         chartArea: {
             height: 200
         },
@@ -64,10 +70,22 @@ function pieConfigTable(data, title) {
             visible: true,
             template: "#= category #: #= kendo.format('{0:P}', percentage) #"
         },
-        seriesColors: ["#d7191c", "#fdae61", "#ffffbf", "#abd9e9", "#2c7bb6"],
-        dataBound: function(e) {
-            console.log(e);
-        }
+        seriesColors: ["#d7191c", "#fdae61", "#ffffbf", "#abd9e9", "#2c7bb6"]
     }
     return config;
+}
+
+function addDataError(){ 
+    $('.k-chart').each(function(){
+        var data = $(this).data('kendoChart').options.series[0].data,
+        dataNotAvailable = false;
+        for(i in data){
+            if(data[i].value === ""){
+                dataNotAvailable = true;
+            }
+        }
+        if(dataNotAvailable){
+           $('<div class="custom-overlay"><p class="message">No Data Available</p></div>').appendTo(this);
+        }
+    });
 }

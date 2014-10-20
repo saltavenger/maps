@@ -10,7 +10,6 @@ $(document).ready(function() {
         columns: tableColumns,
         schema: tableSchema
     });
-
 });
 
 function detailInit(e) {
@@ -23,7 +22,6 @@ function detailInit(e) {
             }
         }
     });
-
     for (i in markers) {
         var pieData = getPieData(i),
             panelNum = parseInt(i) + 1;
@@ -39,6 +37,8 @@ function detailInit(e) {
         createPieTable("panel_2_" + panelNum, "income3", pieData.incomeDataThreeMile, "Income");
         createPieTable("panel_2_" + panelNum, "race3", pieData.raceDataThreeMile, "Race");
     }
+    
+    addDataError();
 }
 
 function getTitle(type, radius) {
